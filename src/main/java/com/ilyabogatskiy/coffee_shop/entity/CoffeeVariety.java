@@ -3,7 +3,6 @@ package com.ilyabogatskiy.coffee_shop.entity;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Data
 @Entity
@@ -21,8 +20,6 @@ public class CoffeeVariety {
     @Column(name = "price")
     private Integer price;
 
+    @Column(name = "variety_availability")
     private Boolean available;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "grade")
-    private List<OrderItem> orderItems;
 }
