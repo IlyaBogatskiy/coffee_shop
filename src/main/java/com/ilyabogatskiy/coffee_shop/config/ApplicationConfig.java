@@ -9,6 +9,8 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.thymeleaf.templatemode.TemplateMode;
+import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
 import javax.sql.DataSource;
 import java.util.Properties;
@@ -18,7 +20,7 @@ import java.util.Properties;
 @EnableJpaRepositories(basePackages = "com.ilyabogatskiy.coffee_shop")
 public class ApplicationConfig {
 
-    private static final String PACKAGES_SCAN = "com.ilyabogatskiy.coffee_shop.entity";
+    private static final String PACKAGES_SCAN = "com.ilyabogatskiy.coffee_shop.models";
 
     private static final String JDBC_URL = "jdbc.url";
     private static final String JDBC_USERNAME = "jdbc.username";

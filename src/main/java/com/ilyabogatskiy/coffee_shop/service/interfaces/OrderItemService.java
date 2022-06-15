@@ -1,6 +1,6 @@
 package com.ilyabogatskiy.coffee_shop.service.interfaces;
 
-import com.ilyabogatskiy.coffee_shop.entity.OrderItem;
+import com.ilyabogatskiy.coffee_shop.models.OrderItem;
 
 import java.util.List;
 

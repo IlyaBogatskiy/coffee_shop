@@ -1,13 +1,15 @@
 package com.ilyabogatskiy.coffee_shop.service.impl;
 
-import com.ilyabogatskiy.coffee_shop.entity.CoffeeVariety;
+import com.ilyabogatskiy.coffee_shop.models.CoffeeVariety;
 import com.ilyabogatskiy.coffee_shop.repository.CoffeeVarietyRepository;
 import com.ilyabogatskiy.coffee_shop.service.interfaces.CoffeeVarietyService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class CoffeeVarietyServiceImpl implements CoffeeVarietyService {
 
     private final CoffeeVarietyRepository coffeeVarietyRepository;
@@ -18,7 +20,7 @@ public class CoffeeVarietyServiceImpl implements CoffeeVarietyService {
 
     @Override
     public List<CoffeeVariety> getAllCoffeeVarieties() {
-        return coffeeVarietyRepository.findAll();
+        return coffeeVarietyRepository.getCoffeeVarietiesByAvailableIsTrue();
     }
 
     @Override
