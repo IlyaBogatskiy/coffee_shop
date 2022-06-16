@@ -18,10 +18,14 @@ public class OrderItem {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "grade")
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
+    @JoinColumn(name = "grade_id", nullable = false)
     private CoffeeVariety coffeeVariety;
 
     @Column(name = "amount")
     private Integer cups;
+
+    @ManyToOne
+    @JoinColumn(name = "order_id", nullable = false)
+    private Order order;
 }

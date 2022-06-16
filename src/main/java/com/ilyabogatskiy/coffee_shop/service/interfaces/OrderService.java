@@ -9,5 +9,5 @@ public interface OrderService {
 
     List<Order> getAllOrders();
 
-    Order updateOrder(BigDecimal price, Order order);
+    Order saveOrder(BigDecimal price, Order order);
 }

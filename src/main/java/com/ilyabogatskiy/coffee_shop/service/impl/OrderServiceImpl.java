@@ -25,7 +25,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order updateOrder(BigDecimal price, Order order) {
+    public Order saveOrder(BigDecimal price, Order order) {
         order.setOrderPrice(price);
 
         return orderRepository.save(order);
