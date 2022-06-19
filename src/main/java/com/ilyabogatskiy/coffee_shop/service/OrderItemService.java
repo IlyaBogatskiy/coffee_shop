@@ -1,13 +1,13 @@
 package com.ilyabogatskiy.coffee_shop.service;
 
 import com.ilyabogatskiy.coffee_shop.exception.OrderNotFoundException;
-import com.ilyabogatskiy.coffee_shop.models.Order;
 import com.ilyabogatskiy.coffee_shop.models.OrderItem;
 import com.ilyabogatskiy.coffee_shop.repository.OrderItemRepository;
 import com.ilyabogatskiy.coffee_shop.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -22,6 +22,10 @@ public class OrderItemService {
         this.orderItemRepository = orderItemRepository;
         this.orderPriceCalculationService = orderPriceCalculationService;
         this.orderRepository = orderRepository;
+    }
+
+    public List<OrderItem> getAllOrderItems() {
+        return orderItemRepository.findAll();
     }
 
     public Optional<OrderItem> newOrderItem(Long orderId, OrderItem orderItem) {

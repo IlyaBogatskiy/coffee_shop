@@ -13,4 +13,6 @@ public interface CoffeeVarietyRepository extends JpaRepository<CoffeeVariety, Lo
     List<CoffeeVariety> findCoffeeVarietiesByAvailableIsTrue();
 
     Optional<CoffeeVariety> findCoffeeVarietyById(Long id);
+
+    void deleteCoffeeVarietyById(Long id);
 }

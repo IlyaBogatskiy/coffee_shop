@@ -26,4 +26,16 @@ public class CoffeeVarietyService {
         return coffeeVarietyRepository.findCoffeeVarietyById(id)
                 .orElseThrow(() -> new CoffeeVarietyNotFoundException("Coffee variety by id " + id + " was not found"));
     }
+
+    public CoffeeVariety addCoffeeVariety(CoffeeVariety coffeeVariety) {
+        return coffeeVarietyRepository.save(coffeeVariety);
+    }
+
+    public CoffeeVariety updateCoffeeVariety(CoffeeVariety coffeeVariety) {
+        return coffeeVarietyRepository.save(coffeeVariety);
+    }
+
+    public void deleteCoffeeVariety(Long id) {
+        coffeeVarietyRepository.deleteCoffeeVarietyById(id);
+    }
 }
