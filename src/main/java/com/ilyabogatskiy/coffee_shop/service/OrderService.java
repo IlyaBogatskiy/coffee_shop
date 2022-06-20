@@ -39,13 +39,15 @@ public class OrderService {
                 .orElseThrow(() -> new OrderNotFoundException("Order by id " + id + " was not found"));
     }
 
-    public Optional<OrderItem> addOrderItem(Long orderId, OrderItem orderItem) {
+    public Optional<OrderItem> addOrderItem(Long orderId,
+                                            OrderItem orderItem,
+                                            List<OrderItem> orderItems) {
         var order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new OrderNotFoundException("Order by id " + orderId + " was not found"));
 
-        orderItem.setOrder(order);
+        order.setOrderItems(orderItems);
         orderItemRepository.save(orderItem);
-        orderPriceCalculationService.orderPriceCalculation(order);
+        orderPriceCalculationService.orderPriceCalculation(order, orderItems);
         orderRepository.save(order);
 
         return Optional.of(orderItem);

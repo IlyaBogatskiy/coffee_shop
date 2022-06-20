@@ -2,7 +2,10 @@ package com.ilyabogatskiy.coffee_shop.controllers;
 
 import com.ilyabogatskiy.coffee_shop.models.CoffeeVariety;
 import com.ilyabogatskiy.coffee_shop.service.CoffeeVarietyService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,45 +13,47 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@Api(tags = "Coffee Variety Rest Controller")
 @RequestMapping("/variety")
-public class CoffeeVarietyController {
+@RequiredArgsConstructor
+public class CoffeeVarietyRestController {
 
     private final CoffeeVarietyService coffeeVarietyService;
 
-    public CoffeeVarietyController(CoffeeVarietyService coffeeVarietyService) {
-        this.coffeeVarietyService = coffeeVarietyService;
-    }
-
-    @ApiOperation("Получение списка сортов кофе")
+    @ApiOperation(value = "getAllCoffeeVarieties", notes = "Получение списка сортов кофе")
     @GetMapping("/all")
     public ResponseEntity<List<CoffeeVariety>> getAllCoffeeVarieties() {
         return new ResponseEntity<>(coffeeVarietyService.findCoffeeVarietiesByAvailableIsTrue(),
                 HttpStatus.OK);
     }
 
-    @ApiOperation("Получение сорта кофе по id")
+    @ApiOperation(value = "getCoffeeVarietyById", notes = "Получение сорта кофе по id")
     @GetMapping("/find/{id}")
-    public ResponseEntity<CoffeeVariety> getCoffeeVarietyById(@PathVariable Long id) {
+    public ResponseEntity<CoffeeVariety> getCoffeeVarietyById(@ApiParam(name = "id", type = "Long",
+            value = "Переданный в URL id, по которому происходит поиск сорта кофе")
+                                                                  @PathVariable Long id) {
         return new ResponseEntity<>(coffeeVarietyService.findCoffeeVarietyById(id), HttpStatus.OK);
     }
 
-    @ApiOperation("Добавление сорта кофе")
+    @ApiOperation(value = "addCoffeeVariety", notes = "Добавление сорта кофе")
     @PostMapping("/add")
     public ResponseEntity<CoffeeVariety> addCoffeeVariety(@RequestBody CoffeeVariety coffeeVariety) {
         return new ResponseEntity<>(coffeeVarietyService.addCoffeeVariety(coffeeVariety),
                 HttpStatus.CREATED);
     }
 
-    @ApiOperation("Обновление сорта кофе")
+    @ApiOperation(value = "updateCoffeeVarieties", notes = "Обновление сорта кофе")
     @PutMapping("/update")
     public ResponseEntity<CoffeeVariety> updateCoffeeVarieties(@RequestBody CoffeeVariety coffeeVariety) {
         return new ResponseEntity<>(coffeeVarietyService.updateCoffeeVariety(coffeeVariety),
                 HttpStatus.OK);
     }
 
-    @ApiOperation("Удаление сорта кофе по id")
+    @ApiOperation(value = "deleteCoffeeVarietyById", notes = "Удаление сорта кофе по id")
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteCoffeeVarietyById(@PathVariable Long id) {
+    public ResponseEntity<?> deleteCoffeeVarietyById(@ApiParam(name = "id", type = "Long",
+            value = "Переданный в URL id, по которому происходит удаление сорта кофе")
+                                                         @PathVariable Long id) {
         coffeeVarietyService.deleteCoffeeVariety(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }

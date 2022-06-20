@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 @Transactional
@@ -19,30 +20,27 @@ public class OrderPriceCalculationService {
     @Value("${cafe.defaultDelivery.m}")
     private BigDecimal defaultDeliveryPrice;
 
-    //Подсчет общей суммы заказа
-    public Order orderPriceCalculation(Order order) {
-        order.setOrderPrice(null);
-        return order;
-    }
-
-    //Совместная стоимость заказа и доставки со скидкой
-    private Order orderPriceWithDeliveryPrice(Order order) {
+    //Общая стоимость заказа
+    public Order orderPriceCalculation(Order order, List<OrderItem> orderItems) {
         var deliveryPrice = deliveryPriceWithDiscountCalculation(order);
+        var orderItemPrice =  orderItemPriceCalculation(orderItems);
 
-        order.setOrderPrice(order.getOrderPrice().add(deliveryPrice));
+        order.setOrderPrice(deliveryPrice.add(orderItemPrice));
 
         return order;
     }
 
     //Стоимость одной позиции заказа
-    private OrderItem orderItemPriceCalculation(OrderItem orderItem) {
-        var cupCount = orderItem.getCups();
-        var orderPrice = orderItem.getCoffeeVariety().getPrice();
-        var fullPrice = orderPrice.multiply(BigDecimal.valueOf(cupCount - cupCount / freeCup));
+    private BigDecimal orderItemPriceCalculation(List<OrderItem> orderItems) {
+        var fullPrice = new BigDecimal(0);
 
-        orderItem.getOrder().setOrderPrice(fullPrice);
+        for (OrderItem orderItem : orderItems) {
+            var cupCount = orderItem.getCups();
+            var orderPrice = orderItem.getCoffeeVariety().getPrice();
+            fullPrice = orderPrice.multiply(BigDecimal.valueOf(cupCount - cupCount / freeCup));
+        }
 
-        return orderItem;
+        return fullPrice;
     }
 
     //Стоимость доставки с учетом скидки
