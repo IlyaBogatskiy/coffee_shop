@@ -29,9 +29,13 @@ public class CoffeeVarietyRestController {
 
     @ApiOperation(value = "getCoffeeVarietyById", notes = "Получение сорта кофе по id")
     @GetMapping("/find/{id}")
-    public ResponseEntity<CoffeeVariety> getCoffeeVarietyById(@ApiParam(name = "id", type = "Long",
-            value = "Переданный в URL id, по которому происходит поиск сорта кофе")
-                                                                  @PathVariable Long id) {
+    public ResponseEntity<CoffeeVariety> getCoffeeVarietyById(@ApiParam(
+            name = "id",
+            type = "Long",
+            value = "Переданный в URL id, по которому происходит поиск сорта кофе",
+            example = "1",
+            required = true)
+                                                              @PathVariable Long id) {
         return new ResponseEntity<>(coffeeVarietyService.findCoffeeVarietyById(id), HttpStatus.OK);
     }
 
@@ -51,9 +55,13 @@ public class CoffeeVarietyRestController {
 
     @ApiOperation(value = "deleteCoffeeVarietyById", notes = "Удаление сорта кофе по id")
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteCoffeeVarietyById(@ApiParam(name = "id", type = "Long",
-            value = "Переданный в URL id, по которому происходит удаление сорта кофе")
-                                                         @PathVariable Long id) {
+    public ResponseEntity<?> deleteCoffeeVarietyById(@ApiParam(
+            name = "id",
+            type = "Long",
+            value = "Переданный в URL id, по которому происходит удаление сорта кофе",
+            example = "1",
+            required = true)
+                                                     @PathVariable Long id) {
         coffeeVarietyService.deleteCoffeeVariety(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }

@@ -19,11 +19,13 @@ public class OrderService {
     private final OrderItemRepository orderItemRepository;
     private final OrderPriceCalculationService orderPriceCalculationService;
     private final OrderRepository orderRepository;
+    private final List<OrderItem> orderItems;
 
-    public OrderService(OrderItemRepository orderItemRepository, OrderPriceCalculationService orderPriceCalculationService, OrderRepository orderRepository) {
+    public OrderService(OrderItemRepository orderItemRepository, OrderPriceCalculationService orderPriceCalculationService, OrderRepository orderRepository, List<OrderItem> orderItems) {
         this.orderItemRepository = orderItemRepository;
         this.orderPriceCalculationService = orderPriceCalculationService;
         this.orderRepository = orderRepository;
+        this.orderItems = orderItems;
     }
 
     public List<OrderItem> getAllOrderItems() {
@@ -40,8 +42,7 @@ public class OrderService {
     }
 
     public Optional<OrderItem> addOrderItem(Long orderId,
-                                            OrderItem orderItem,
-                                            List<OrderItem> orderItems) {
+                                            OrderItem orderItem) {
         var order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new OrderNotFoundException("Order by id " + orderId + " was not found"));
 

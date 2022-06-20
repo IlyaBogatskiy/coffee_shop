@@ -36,20 +36,27 @@ public class OrderRestController {
 
     @ApiOperation(value = "getOrderById", notes = "Получение заказа по id")
     @GetMapping("/find/{id}")
-    public ResponseEntity<Order> getOrderById(@ApiParam(name = "id", type = "Long",
-            value = "Переданный в URL id, по которому происходит поиск заказа")
-                                                  @PathVariable Long id) {
+    public ResponseEntity<Order> getOrderById(@ApiParam(
+            name = "id",
+            type = "Long",
+            value = "Переданный в URL id, по которому происходит поиск заказа",
+            example = "1",
+            required = true)
+                                              @PathVariable Long id) {
         return new ResponseEntity<>(orderService.findOrderById(id), HttpStatus.OK);
     }
 
     @ApiOperation(value = "addOrderItem", notes = "Создать новую позицию заказа")
     @PostMapping("/{id}/item/add")
-    public ResponseEntity<OrderItem> addOrderItem(@ApiParam(name = "id", type = "Long",
-            value = "Переданный в URL id, по которому происходит cоздание новой позиции заказа")
-                                                      @PathVariable Long id,
-                                                  @RequestBody OrderItem orderItem,
-                                                  @RequestBody List<OrderItem> orderItems) {
-        return orderService.addOrderItem(id, orderItem, orderItems)
+    public ResponseEntity<OrderItem> addOrderItem(@ApiParam(
+            name = "id",
+            type = "Long",
+            value = "Переданный в URL id заказа, по которому происходит cоздание новой позиции заказа",
+            example = "1",
+            required = true)
+                                                  @PathVariable Long id,
+                                                  @RequestBody OrderItem orderItem) {
+        return orderService.addOrderItem(id, orderItem)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -69,9 +76,13 @@ public class OrderRestController {
 
     @ApiOperation(value = "deleteOrderById", notes = "Удаление заказа по id")
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteOrderById(@ApiParam(name = "id", type = "Long",
-            value = "Переданный в URL id, по которому происходит удаление заказа")
-                                                 @PathVariable Long id) {
+    public ResponseEntity<?> deleteOrderById(@ApiParam(
+            name = "id",
+            type = "Long",
+            value = "Переданный в URL id, по которому происходит удаление заказа",
+            example = "1",
+            required = true)
+                                             @PathVariable Long id) {
         orderService.deleteOrderById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
