@@ -1,0 +1,6 @@
+application:
+  swagger:
+    enabled: true
+    title: Coffe shop
+    description: coffe shop
+    version: 0.1.0
