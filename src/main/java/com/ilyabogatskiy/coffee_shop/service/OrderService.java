@@ -32,10 +32,6 @@ public class OrderService {
         this.orderItems = orderItems;
     }
 
-    public List<OrderItem> getAllOrderItems() {
-        return orderItemRepository.findAll();
-    }
-
     public List<Order> getAllOrders() {
         return orderRepository.findAll();
     }
@@ -45,37 +41,41 @@ public class OrderService {
                 .orElseThrow(() -> new OrderNotFoundException("Order by id " + id + " was not found"));
     }
 
-    public Optional<OrderItem> addOrderItem(Long id, OrderItem orderItem) {
-        var coffeeVariety = coffeeVarietyService.findCoffeeVarietyById(orderItem.getCoffeeVariety().getId());
-        if (coffeeVariety == null) {
-            return Optional.empty();
-        }
-
-        var order = orderRepository.findById(id)
-                .orElseThrow(() -> new OrderNotFoundException("Order by id " + id + " was not found"));
-        if (order == null) {
-            return Optional.empty();
-        }
-
+    public Order createOrder(Order order) {
+        order.setCustomerName(order.getCustomerName());
+        order.setDeliveryAddress(order.getDeliveryAddress());
         order.setOrderItems(orderItems);
-        orderItemRepository.save(orderItem);
+
         orderPriceCalculationService.orderPriceCalculation(order);
-        orderRepository.save(order);
-
-        return Optional.of(orderItem);
-    }
-
-    public OrderItem addOrderItemWithoutOrder(OrderItem orderItem) {
-        return orderItemRepository.save(orderItem);
-    }
-
-    public Order addOrder(Order order) {
-        order.setOrderPrice(BigDecimal.ZERO);
 
         return orderRepository.save(order);
     }
 
-    public Order updateOrder(Order order) {
+    public OrderItem createOrderItem(OrderItem orderItem) {
+        var coffeeVariety = coffeeVarietyService.findCoffeeVarietyById(orderItem.getCoffeeVariety().getId());
+        if (coffeeVariety == null) {
+            return null;
+        }
+
+        orderItem.setCoffeeVariety(coffeeVariety);
+        orderItem.setCups(orderItem.getCups());
+
+        orderItemRepository.save(orderItem);
+
+        return orderItem;
+    }
+
+    public Order updateOrderById(Long id) {
+        var order = new Order();
+
+        orderRepository.findOrderById(id);
+
+        order.setCustomerName(order.getCustomerName());
+        order.setDeliveryAddress(order.getDeliveryAddress());
+        order.setOrderItems(orderItems);
+
+        orderPriceCalculationService.orderPriceCalculation(order);
+
         return orderRepository.save(order);
     }
 

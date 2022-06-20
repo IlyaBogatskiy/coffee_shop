@@ -21,15 +21,8 @@ public class OrderRestController {
 
     private final OrderService orderService;
 
-    @ApiOperation(value = "getAllOrderItems", notes = "Получение списка всех позиций заказа")
-    @GetMapping("/all")
-    public ResponseEntity<List<OrderItem>> getAllOrderItems() {
-        return new ResponseEntity<>(orderService.getAllOrderItems(),
-                HttpStatus.OK);
-    }
-
     @ApiOperation(value = "getAllOrders", notes = "Получение списка заказов")
-    @GetMapping("/item/all")
+    @GetMapping("/all")
     public ResponseEntity<List<Order>> getAllOrders() {
         return new ResponseEntity<>(orderService.getAllOrders(), HttpStatus.OK);
     }
@@ -46,39 +39,30 @@ public class OrderRestController {
         return new ResponseEntity<>(orderService.findOrderById(id), HttpStatus.OK);
     }
 
-    @ApiOperation(value = "addOrderItem", notes = "Создать новую позицию заказа")
-    @PostMapping("/item/add")
-    public ResponseEntity<OrderItem> addOrderItemWithoutOrder(@ApiParam(value = "Новая позиция заказа без заказа")
-                                                              @RequestBody OrderItem orderItem) {
-        return new ResponseEntity<>(orderService.addOrderItemWithoutOrder(orderItem), HttpStatus.CREATED);
+    @ApiOperation(value = "createOrder", notes = "Создать новый заказ")
+    @PostMapping("/create")
+    public ResponseEntity<Order> createOrder(@ApiParam(value = "Создание нового заказа")
+                                          @RequestBody Order order) {
+        return new ResponseEntity<>(orderService.createOrder(order), HttpStatus.CREATED);
     }
 
-    @ApiOperation(value = "addOrderItem", notes = "Создать новую позицию заказа")
-    @PostMapping("/{id}/item/add")
-    public ResponseEntity<OrderItem> addOrderItem(@ApiParam(
+    @ApiOperation(value = "createOrderItem", notes = "Создать новый заказ")
+    @PostMapping("/create_item")
+    public ResponseEntity<OrderItem> createOrderItem(@ApiParam(value = "Создание новой позиции заказа")
+                                          @RequestBody OrderItem orderItem) {
+        return new ResponseEntity<>(orderService.createOrderItem(orderItem), HttpStatus.CREATED);
+    }
+
+    @ApiOperation(value = "updateOrderById", notes = "Обновление заказа")
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Order> updateOrderById(@ApiParam(
             name = "id",
             type = "Long",
-            value = "Переданный в URL id заказа, по которому происходит cоздание новой позиции заказа",
+            value = "Переданный в URL id, по которому происходит поиск заказа для последующего изменения",
             example = "1",
             required = true)
-                                                  @PathVariable Long id,
-                                                  @RequestBody OrderItem orderItem) {
-        return orderService.addOrderItem(id, orderItem)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
-    @ApiOperation(value = "addOrder", notes = "Создать новый заказ")
-    @PostMapping("/add")
-    public ResponseEntity<Order> addOrder(@ApiParam(value = "Новый заказ")
-                                          @RequestBody Order order) {
-        return new ResponseEntity<>(orderService.addOrder(order), HttpStatus.CREATED);
-    }
-
-    @ApiOperation(value = "updateOrder", notes = "Обновление заказа")
-    @PutMapping("/update")
-    public ResponseEntity<Order> updateOrder(@RequestBody Order order) {
-        return new ResponseEntity<>(orderService.updateOrder(order), HttpStatus.OK);
+                                                 @PathVariable Long id) {
+        return new ResponseEntity<>(orderService.updateOrderById(id), HttpStatus.OK);
     }
 
     @ApiOperation(value = "deleteOrderById", notes = "Удаление заказа по id")
