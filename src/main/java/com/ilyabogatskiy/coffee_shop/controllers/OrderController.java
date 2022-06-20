@@ -1,6 +1,7 @@
 package com.ilyabogatskiy.coffee_shop.controllers;
 
 import com.ilyabogatskiy.coffee_shop.models.Order;
+import com.ilyabogatskiy.coffee_shop.models.OrderItem;
 import com.ilyabogatskiy.coffee_shop.service.OrderService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -20,6 +21,13 @@ public class OrderController {
         this.orderService = orderService;
     }
 
+    @ApiOperation("Получение списка всех позиций заказа")
+    @GetMapping("/all")
+    public ResponseEntity<List<OrderItem>> getAllOrderItems() {
+        return new ResponseEntity<>(orderService.getAllOrderItems(),
+                HttpStatus.OK);
+    }
+
     @ApiOperation("Получение списка заказов")
     @GetMapping("/all")
     public ResponseEntity<List<Order>> getAllCoffeeVarieties() {
@@ -28,8 +36,18 @@ public class OrderController {
 
     @ApiOperation("Получение заказа по id")
     @GetMapping("/find/{id}")
-    public ResponseEntity<Order> getorderById(@PathVariable Long id) {
+    public ResponseEntity<Order> getOrderById(@PathVariable Long id) {
         return new ResponseEntity<>(orderService.findOrderById(id), HttpStatus.OK);
+    }
+
+    @ApiOperation("Создать новую позицию заказа")
+    @PostMapping("/add")
+    public ResponseEntity<OrderItem> addOrderItem(@ApiParam(value = "Позиция заказа")
+                                                  @PathVariable Long id,
+                                                  @RequestBody OrderItem orderItem) {
+        return orderService.addOrderItem(id, orderItem)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @ApiOperation("Создать новый заказ")
@@ -47,7 +65,7 @@ public class OrderController {
 
     @ApiOperation("Удаление заказа по id")
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteorderById(@PathVariable Long id) {
+    public ResponseEntity<?> deleteOrderById(@PathVariable Long id) {
         orderService.deleteOrderById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }

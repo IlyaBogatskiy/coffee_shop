@@ -2,7 +2,6 @@ package com.ilyabogatskiy.coffee_shop.service;
 
 import com.ilyabogatskiy.coffee_shop.models.Order;
 import com.ilyabogatskiy.coffee_shop.models.OrderItem;
-import com.ilyabogatskiy.coffee_shop.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
