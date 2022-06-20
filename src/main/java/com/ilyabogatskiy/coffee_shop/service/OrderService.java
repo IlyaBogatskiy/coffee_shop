@@ -34,11 +34,11 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
-    public Order updateCoffeeVariety(Order order) {
+    public Order updateOrder(Order order) {
         return orderRepository.save(order);
     }
 
-    public void deleteCoffeeVariety(Long id) {
+    public void deleteOrderById(Long id) {
         orderRepository.deleteOrderById(id);
     }
 }

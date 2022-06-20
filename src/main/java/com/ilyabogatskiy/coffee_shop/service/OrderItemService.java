@@ -28,7 +28,7 @@ public class OrderItemService {
         return orderItemRepository.findAll();
     }
 
-    public Optional<OrderItem> newOrderItem(Long orderId, OrderItem orderItem) {
+    public Optional<OrderItem> addOrderItem(Long orderId, OrderItem orderItem) {
         var order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new OrderNotFoundException("Order by id " + orderId + " was not found"));
 
