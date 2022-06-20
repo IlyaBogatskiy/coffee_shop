@@ -1,7 +1,5 @@
 package com.ilyabogatskiy.coffee_shop.controllers;
 
-import com.ilyabogatskiy.coffee_shop.models.CoffeeVariety;
-import com.ilyabogatskiy.coffee_shop.models.Order;
 import com.ilyabogatskiy.coffee_shop.models.OrderItem;
 import com.ilyabogatskiy.coffee_shop.service.OrderItemService;
 import io.swagger.annotations.ApiOperation;
@@ -11,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/order_item")
