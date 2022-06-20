@@ -47,6 +47,13 @@ public class OrderRestController {
     }
 
     @ApiOperation(value = "addOrderItem", notes = "Создать новую позицию заказа")
+    @PostMapping("/item/add")
+    public ResponseEntity<OrderItem> addOrderItemWithoutOrder(@ApiParam(value = "Новая позиция заказа без заказа")
+                                                              @RequestBody OrderItem orderItem) {
+        return new ResponseEntity<>(orderService.addOrderItemWithoutOrder(orderItem), HttpStatus.CREATED);
+    }
+
+    @ApiOperation(value = "addOrderItem", notes = "Создать новую позицию заказа")
     @PostMapping("/{id}/item/add")
     public ResponseEntity<OrderItem> addOrderItem(@ApiParam(
             name = "id",

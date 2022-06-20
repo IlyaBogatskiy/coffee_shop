@@ -2,6 +2,7 @@ package com.ilyabogatskiy.coffee_shop.service;
 
 import com.ilyabogatskiy.coffee_shop.models.Order;
 import com.ilyabogatskiy.coffee_shop.models.OrderItem;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,7 +12,10 @@ import java.util.List;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class OrderPriceCalculationService {
+
+    private final List<OrderItem> orderItems;
 
     @Value("${cafe.freeCup.n}")
     private Integer freeCup;
@@ -21,7 +25,7 @@ public class OrderPriceCalculationService {
     private BigDecimal defaultDeliveryPrice;
 
     //Общая стоимость заказа
-    public Order orderPriceCalculation(Order order, List<OrderItem> orderItems) {
+    public Order orderPriceCalculation(Order order) {
         var deliveryPrice = deliveryPriceWithDiscountCalculation(order);
         var orderItemPrice =  orderItemPriceCalculation(orderItems);
 

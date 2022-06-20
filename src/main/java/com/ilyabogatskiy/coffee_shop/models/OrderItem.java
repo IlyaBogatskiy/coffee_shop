@@ -19,7 +19,7 @@ public class OrderItem {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "grade_id", nullable = false)
+    @JoinColumn(name = "coffee_variety_id", nullable = false)
     private CoffeeVariety coffeeVariety;
 
     @Column(name = "amount")

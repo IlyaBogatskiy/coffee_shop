@@ -1,6 +1,8 @@
 package com.ilyabogatskiy.coffee_shop.service;
 
+import com.ilyabogatskiy.coffee_shop.exception.CoffeeVarietyNotFoundException;
 import com.ilyabogatskiy.coffee_shop.exception.OrderNotFoundException;
+import com.ilyabogatskiy.coffee_shop.models.CoffeeVariety;
 import com.ilyabogatskiy.coffee_shop.models.Order;
 import com.ilyabogatskiy.coffee_shop.models.OrderItem;
 import com.ilyabogatskiy.coffee_shop.repository.OrderItemRepository;
@@ -18,12 +20,14 @@ public class OrderService {
 
     private final OrderItemRepository orderItemRepository;
     private final OrderPriceCalculationService orderPriceCalculationService;
+    private final CoffeeVarietyService coffeeVarietyService;
     private final OrderRepository orderRepository;
     private final List<OrderItem> orderItems;
 
-    public OrderService(OrderItemRepository orderItemRepository, OrderPriceCalculationService orderPriceCalculationService, OrderRepository orderRepository, List<OrderItem> orderItems) {
+    public OrderService(OrderItemRepository orderItemRepository, OrderPriceCalculationService orderPriceCalculationService, CoffeeVarietyService coffeeVarietyService, OrderRepository orderRepository, List<OrderItem> orderItems) {
         this.orderItemRepository = orderItemRepository;
         this.orderPriceCalculationService = orderPriceCalculationService;
+        this.coffeeVarietyService = coffeeVarietyService;
         this.orderRepository = orderRepository;
         this.orderItems = orderItems;
     }
@@ -41,17 +45,28 @@ public class OrderService {
                 .orElseThrow(() -> new OrderNotFoundException("Order by id " + id + " was not found"));
     }
 
-    public Optional<OrderItem> addOrderItem(Long orderId,
-                                            OrderItem orderItem) {
-        var order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new OrderNotFoundException("Order by id " + orderId + " was not found"));
+    public Optional<OrderItem> addOrderItem(Long id, OrderItem orderItem) {
+        var coffeeVariety = coffeeVarietyService.findCoffeeVarietyById(orderItem.getCoffeeVariety().getId());
+        if (coffeeVariety == null) {
+            return Optional.empty();
+        }
+
+        var order = orderRepository.findById(id)
+                .orElseThrow(() -> new OrderNotFoundException("Order by id " + id + " was not found"));
+        if (order == null) {
+            return Optional.empty();
+        }
 
         order.setOrderItems(orderItems);
         orderItemRepository.save(orderItem);
-        orderPriceCalculationService.orderPriceCalculation(order, orderItems);
+        orderPriceCalculationService.orderPriceCalculation(order);
         orderRepository.save(order);
 
         return Optional.of(orderItem);
+    }
+
+    public OrderItem addOrderItemWithoutOrder(OrderItem orderItem) {
+        return orderItemRepository.save(orderItem);
     }
 
     public Order addOrder(Order order) {
