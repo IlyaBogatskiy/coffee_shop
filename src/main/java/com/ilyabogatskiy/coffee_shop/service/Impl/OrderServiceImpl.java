@@ -1,9 +1,6 @@
 package com.ilyabogatskiy.coffee_shop.service.Impl;
 
-import com.ilyabogatskiy.coffee_shop.dto.OrderDto;
 import com.ilyabogatskiy.coffee_shop.exception.OrderNotFoundException;
-import com.ilyabogatskiy.coffee_shop.mapper.OrderItemMapper;
-import com.ilyabogatskiy.coffee_shop.mapper.OrderMapper;
 import com.ilyabogatskiy.coffee_shop.models.Order;
 import com.ilyabogatskiy.coffee_shop.models.OrderItem;
 import com.ilyabogatskiy.coffee_shop.repository.OrderItemRepository;
@@ -16,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service

@@ -1,8 +1,6 @@
 package com.ilyabogatskiy.coffee_shop.service.Impl;
 
-import com.ilyabogatskiy.coffee_shop.dto.CoffeeVarietyDto;
 import com.ilyabogatskiy.coffee_shop.exception.CoffeeVarietyNotFoundException;
-import com.ilyabogatskiy.coffee_shop.mapper.CoffeeVarietyMapper;
 import com.ilyabogatskiy.coffee_shop.models.CoffeeVariety;
 import com.ilyabogatskiy.coffee_shop.repository.CoffeeVarietyRepository;
 import com.ilyabogatskiy.coffee_shop.service.CoffeeVarietyService;
@@ -10,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service

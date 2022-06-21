@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
-import java.util.List;
 
 @Slf4j
 @Service
@@ -17,8 +16,10 @@ public class OrderPriceCalculationServiceImpl implements OrderPriceCalculationSe
 
     @Value("${cafe.freeCup.n}")
     private Integer freeCup;
+
     @Value("${cafe.freeDelivery.x}")
     private String freeDeliveryPrice;
+
     @Value("${cafe.defaultDelivery.m}")
     private String defaultDeliveryPrice;
 
