@@ -41,10 +41,8 @@ public class CoffeeVarietyRestController {
             value = "Переданный в URL id, по которому происходит поиск сорта кофе",
             example = "1",
             required = true
-    ) @PathVariable Long id, @RequestBody CoffeeVarietyDto coffeeVarietyDto) {
-        CoffeeVariety coffeeVariety = Mappers.getMapper(CoffeeVarietyMapper.class).toModel(coffeeVarietyDto);
-        coffeeVarietyService.findById(id);
-        return coffeeVariety;
+    ) @PathVariable Long id) {
+        return coffeeVarietyService.findById(id);
     }
 
     @ApiOperation(value = "addCoffeeVariety", notes = "Добавление сорта кофе")
@@ -65,15 +63,13 @@ public class CoffeeVarietyRestController {
 
     @ApiOperation(value = "deleteCoffeeVarietyById", notes = "Удаление сорта кофе по id")
     @DeleteMapping("/delete/{id}")
-    public CoffeeVariety deleteCoffeeVarietyById(@ApiParam(
+    public void deleteCoffeeVarietyById(@ApiParam(
             name = "id",
             type = "Long",
             value = "Переданный в URL id, по которому происходит удаление сорта кофе",
             example = "1",
             required = true
-    ) @PathVariable Long id, @RequestBody CoffeeVarietyDto coffeeVarietyDto) {
-        CoffeeVariety coffeeVariety = Mappers.getMapper(CoffeeVarietyMapper.class).toModel(coffeeVarietyDto);
+    ) @PathVariable Long id) {
         coffeeVarietyService.delete(id);
-        return coffeeVariety;
     }
 }

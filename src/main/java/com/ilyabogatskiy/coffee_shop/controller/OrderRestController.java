@@ -38,10 +38,8 @@ public class OrderRestController {
             value = "Переданный в URL id, по которому происходит поиск заказа",
             example = "1",
             required = true
-    ) @PathVariable Long id, @RequestBody OrderDto orderDto) {
-        Order order = Mappers.getMapper(OrderMapper.class).toModel(orderDto);
-        orderService.findById(id);
-        return order;
+    ) @PathVariable Long id) {
+        return orderService.findById(id);
     }
 
     @ApiOperation(value = "createOrder", notes = "Создать новый заказ")
@@ -72,15 +70,13 @@ public class OrderRestController {
 
     @ApiOperation(value = "deleteOrderById", notes = "Удаление заказа по id")
     @DeleteMapping("/delete/{id}")
-    public Order deleteOrderById(@ApiParam(
+    public void deleteOrderById(@ApiParam(
             name = "id",
             type = "Long",
             value = "Переданный в URL id, по которому происходит удаление заказа",
             example = "1",
             required = true
-    ) @PathVariable Long id, @RequestBody OrderDto orderDto) {
-        Order order = Mappers.getMapper(OrderMapper.class).toModel(orderDto);
+    ) @PathVariable Long id) {
         orderService.delete(id);
-        return order;
     }
 }
