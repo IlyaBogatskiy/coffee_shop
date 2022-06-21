@@ -1,4 +1,4 @@
-package com.ilyabogatskiy.coffee_shop.controllers;
+package com.ilyabogatskiy.coffee_shop.controller;
 
 import com.ilyabogatskiy.coffee_shop.dto.CoffeeVarietyDto;
 import com.ilyabogatskiy.coffee_shop.mapper.CoffeeVarietyMapper;
@@ -8,6 +8,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
+import org.mapstruct.factory.Mappers;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,7 +20,6 @@ import java.util.List;
 public class CoffeeVarietyRestController {
 
     private final CoffeeVarietyServiceImpl coffeeVarietyService;
-    private final CoffeeVarietyMapper coffeeVarietyMapper;
 
     @ApiOperation(value = "getAllCoffeeVarieties", notes = "Получение списка сортов кофе")
     @GetMapping("/all")
@@ -42,7 +42,8 @@ public class CoffeeVarietyRestController {
             example = "1",
             required = true
     ) @PathVariable Long id, @RequestBody CoffeeVarietyDto coffeeVarietyDto) {
-        CoffeeVariety coffeeVariety = coffeeVarietyMapper.toModel(coffeeVarietyDto);
+        CoffeeVarietyMapper coffeeMapper = Mappers.getMapper(CoffeeVarietyMapper.class);
+        CoffeeVariety coffeeVariety = coffeeMapper.toModel(coffeeVarietyDto);
         coffeeVarietyService.findById(id);
         return coffeeVariety;
     }
@@ -50,7 +51,8 @@ public class CoffeeVarietyRestController {
     @ApiOperation(value = "addCoffeeVariety", notes = "Добавление сорта кофе")
     @PostMapping("/add")
     public CoffeeVariety addCoffeeVariety(@RequestBody CoffeeVarietyDto coffeeVarietyDto) {
-        CoffeeVariety coffeeVariety = coffeeVarietyMapper.toModel(coffeeVarietyDto);
+        CoffeeVarietyMapper coffeeMapper = Mappers.getMapper(CoffeeVarietyMapper.class);
+        CoffeeVariety coffeeVariety = coffeeMapper.toModel(coffeeVarietyDto);
         coffeeVarietyService.add(coffeeVariety);
         return coffeeVariety;
     }
@@ -58,7 +60,8 @@ public class CoffeeVarietyRestController {
     @ApiOperation(value = "updateCoffeeVarieties", notes = "Обновление сорта кофе")
     @PutMapping("/update")
     public CoffeeVariety updateCoffeeVarieties(@RequestBody CoffeeVarietyDto coffeeVarietyDto) {
-        CoffeeVariety coffeeVariety = coffeeVarietyMapper.toModel(coffeeVarietyDto);
+        CoffeeVarietyMapper coffeeMapper = Mappers.getMapper(CoffeeVarietyMapper.class);
+        CoffeeVariety coffeeVariety = coffeeMapper.toModel(coffeeVarietyDto);
         coffeeVarietyService.edit(coffeeVariety);
         return coffeeVariety;
     }
@@ -72,7 +75,8 @@ public class CoffeeVarietyRestController {
             example = "1",
             required = true
     ) @PathVariable Long id, @RequestBody CoffeeVarietyDto coffeeVarietyDto) {
-        CoffeeVariety coffeeVariety = coffeeVarietyMapper.toModel(coffeeVarietyDto);
+        CoffeeVarietyMapper coffeeMapper = Mappers.getMapper(CoffeeVarietyMapper.class);
+        CoffeeVariety coffeeVariety = coffeeMapper.toModel(coffeeVarietyDto);
         coffeeVarietyService.delete(id);
         return coffeeVariety;
     }

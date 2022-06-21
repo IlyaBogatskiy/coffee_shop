@@ -1,4 +1,4 @@
-package com.ilyabogatskiy.coffee_shop.controllers;
+package com.ilyabogatskiy.coffee_shop.controller;
 
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.doNothing;
@@ -124,7 +124,7 @@ class OrderRestControllerTest {
         OrderItemDto orderItemDto = new OrderItemDto();
         orderItemDto.setCoffeeVarietyDto(coffeeVarietyDto);
         orderItemDto.setCups(1);
-        orderItemDto.setId(1);
+        orderItemDto.setId(123L);
         String content = (new ObjectMapper()).writeValueAsString(orderItemDto);
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/order/create_item")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -283,3 +283,4 @@ class OrderRestControllerTest {
                                         + " St\",\"orderPrice\":42,\"orderItems\":[]}"));
     }
 }
+

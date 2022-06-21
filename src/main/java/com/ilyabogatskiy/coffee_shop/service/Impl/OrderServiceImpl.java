@@ -20,8 +20,8 @@ import java.util.List;
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
-    private final OrderPriceCalculationService orderPriceCalculationService;
     private final OrderItemRepository orderItemRepository;
+    private final OrderPriceCalculationService orderPriceCalculationService;
 
     @Override
     public List<Order> findAll() {

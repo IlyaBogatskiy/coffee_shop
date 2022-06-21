@@ -1,4 +1,4 @@
-package com.ilyabogatskiy.coffee_shop.controllers;
+package com.ilyabogatskiy.coffee_shop.controller;
 
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.doNothing;
