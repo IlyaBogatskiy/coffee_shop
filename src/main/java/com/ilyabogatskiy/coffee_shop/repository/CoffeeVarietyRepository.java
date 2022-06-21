@@ -10,9 +10,5 @@ import java.util.Optional;
 @Repository
 public interface CoffeeVarietyRepository extends JpaRepository<CoffeeVariety, Long> {
 
-    List<CoffeeVariety> findCoffeeVarietiesByAvailableIsTrue();
-
-    Optional<CoffeeVariety> findCoffeeVarietyById(Long id);
-
-    void deleteCoffeeVarietyById(Long id);
+    List<CoffeeVariety> findCoffeeVarietyByAvailableIsTrue();
 }

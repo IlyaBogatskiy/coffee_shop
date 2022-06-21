@@ -8,8 +8,4 @@ import java.util.Optional;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
-
-    Optional<Order> findOrderById(Long id);
-
-    void deleteOrderById(Long id);
 }
