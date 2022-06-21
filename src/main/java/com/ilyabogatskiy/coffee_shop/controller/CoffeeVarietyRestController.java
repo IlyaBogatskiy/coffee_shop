@@ -42,8 +42,7 @@ public class CoffeeVarietyRestController {
             example = "1",
             required = true
     ) @PathVariable Long id, @RequestBody CoffeeVarietyDto coffeeVarietyDto) {
-        CoffeeVarietyMapper coffeeMapper = Mappers.getMapper(CoffeeVarietyMapper.class);
-        CoffeeVariety coffeeVariety = coffeeMapper.toModel(coffeeVarietyDto);
+        CoffeeVariety coffeeVariety = Mappers.getMapper(CoffeeVarietyMapper.class).toModel(coffeeVarietyDto);
         coffeeVarietyService.findById(id);
         return coffeeVariety;
     }
@@ -51,8 +50,7 @@ public class CoffeeVarietyRestController {
     @ApiOperation(value = "addCoffeeVariety", notes = "Добавление сорта кофе")
     @PostMapping("/add")
     public CoffeeVariety addCoffeeVariety(@RequestBody CoffeeVarietyDto coffeeVarietyDto) {
-        CoffeeVarietyMapper coffeeMapper = Mappers.getMapper(CoffeeVarietyMapper.class);
-        CoffeeVariety coffeeVariety = coffeeMapper.toModel(coffeeVarietyDto);
+        CoffeeVariety coffeeVariety = Mappers.getMapper(CoffeeVarietyMapper.class).toModel(coffeeVarietyDto);
         coffeeVarietyService.add(coffeeVariety);
         return coffeeVariety;
     }
@@ -60,8 +58,7 @@ public class CoffeeVarietyRestController {
     @ApiOperation(value = "updateCoffeeVarieties", notes = "Обновление сорта кофе")
     @PutMapping("/update")
     public CoffeeVariety updateCoffeeVarieties(@RequestBody CoffeeVarietyDto coffeeVarietyDto) {
-        CoffeeVarietyMapper coffeeMapper = Mappers.getMapper(CoffeeVarietyMapper.class);
-        CoffeeVariety coffeeVariety = coffeeMapper.toModel(coffeeVarietyDto);
+        CoffeeVariety coffeeVariety = Mappers.getMapper(CoffeeVarietyMapper.class).toModel(coffeeVarietyDto);
         coffeeVarietyService.edit(coffeeVariety);
         return coffeeVariety;
     }
@@ -75,8 +72,7 @@ public class CoffeeVarietyRestController {
             example = "1",
             required = true
     ) @PathVariable Long id, @RequestBody CoffeeVarietyDto coffeeVarietyDto) {
-        CoffeeVarietyMapper coffeeMapper = Mappers.getMapper(CoffeeVarietyMapper.class);
-        CoffeeVariety coffeeVariety = coffeeMapper.toModel(coffeeVarietyDto);
+        CoffeeVariety coffeeVariety = Mappers.getMapper(CoffeeVarietyMapper.class).toModel(coffeeVarietyDto);
         coffeeVarietyService.delete(id);
         return coffeeVariety;
     }
