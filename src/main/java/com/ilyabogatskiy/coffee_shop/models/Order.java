@@ -28,6 +28,6 @@ public class Order {
     @Column(name = "total_price")
     private BigDecimal orderPrice;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "order")
     private List<OrderItem> orderItems;
 }

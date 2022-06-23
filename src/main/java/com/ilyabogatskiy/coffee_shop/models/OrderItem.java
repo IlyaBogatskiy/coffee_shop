@@ -10,13 +10,17 @@ public class OrderItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "coffee_variety_id", nullable = false)
+    @JoinColumn(name = "coffee_variety_id")
     private CoffeeVariety coffeeVariety;
 
     @Column(name = "amount")
     private Integer cups;
+
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
 }

@@ -6,12 +6,9 @@ import com.ilyabogatskiy.coffee_shop.mapper.OrderItemMapper;
 import com.ilyabogatskiy.coffee_shop.mapper.OrderMapper;
 import com.ilyabogatskiy.coffee_shop.models.Order;
 import com.ilyabogatskiy.coffee_shop.models.OrderItem;
-import com.ilyabogatskiy.coffee_shop.service.Impl.OrderServiceImpl;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import com.ilyabogatskiy.coffee_shop.service.OrderService;
+import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
-import org.mapstruct.factory.Mappers;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,16 +19,32 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderRestController {
 
-    private final OrderServiceImpl orderService;
+    private final OrderService orderService;
+    private final OrderMapper orderMapper;
+    private final OrderItemMapper orderItemMapper;
 
-    @ApiOperation(value = "getAllOrders", notes = "Получение списка заказов")
     @GetMapping("/all")
+    @ApiOperation(value = "getAllOrders", notes = "Получение списка заказов")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Список заказов успешно получен"),
+            @ApiResponse(code = 201, message = "Запрос принят и данные получены"),
+            @ApiResponse(code = 404, message = "Данный контролер не найден"),
+            @ApiResponse(code = 403, message = "Операция запрещена"),
+            @ApiResponse(code = 401, message = "Нет доступа к данной операции")
+    })
     public List<Order> getAllOrders() {
         return orderService.findAll();
     }
 
-    @ApiOperation(value = "getOrderById", notes = "Получение заказа по id")
     @GetMapping("/find/{id}")
+    @ApiOperation(value = "getOrderById", notes = "Получение заказа по id")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Заказ успешно найден"),
+            @ApiResponse(code = 201, message = "Запрос принят и данные найдены"),
+            @ApiResponse(code = 404, message = "Данный контролер не найден"),
+            @ApiResponse(code = 403, message = "Операция запрещена"),
+            @ApiResponse(code = 401, message = "Нет доступа к данной операции")
+    })
     public Order getOrderById(@ApiParam(
             name = "id",
             type = "Long",
@@ -42,34 +55,59 @@ public class OrderRestController {
         return orderService.findById(id);
     }
 
-    @ApiOperation(value = "createOrder", notes = "Создать новый заказ")
     @PostMapping("/create")
-    public Order createOrder(@ApiParam(value = "Создание нового заказа")
-                             @RequestBody OrderDto orderDto) {
-        Order order = Mappers.getMapper(OrderMapper.class).toModel(orderDto);
-        orderService.add(order);
-        return order;
+    @ApiOperation(value = "createOrder", notes = "Создать новый заказ")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Заказ успешно создан"),
+            @ApiResponse(code = 201, message = "Запрос принят и данные созданы"),
+            @ApiResponse(code = 404, message = "Данный контролер не найден"),
+            @ApiResponse(code = 403, message = "Операция запрещена"),
+            @ApiResponse(code = 401, message = "Нет доступа к данной операции")}
+    )
+    public OrderDto createOrder(@ApiParam(value = "Создание нового заказа")
+                                @RequestBody OrderDto orderDto) {
+        Order order = orderService.add(orderMapper.toModel(orderDto));
+        return orderMapper.toDto(order);
     }
 
-    @ApiOperation(value = "createOrderItem", notes = "Создать новую позицию заказа")
     @PostMapping("/create_item")
-    public OrderItem createOrderItem(@ApiParam(value = "Создание новой позиции заказа")
+    @ApiOperation(value = "createOrderItem", notes = "Создать новую позицию заказа")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Позиция заказа успешно создана"),
+            @ApiResponse(code = 201, message = "Запрос принят и данные созданы"),
+            @ApiResponse(code = 404, message = "Данный контролер не найден"),
+            @ApiResponse(code = 403, message = "Операция запрещена"),
+            @ApiResponse(code = 401, message = "Нет доступа к данной операции")}
+    )
+    public OrderItemDto createOrderItem(@ApiParam(value = "Создание новой позиции заказа")
                                      @RequestBody OrderItemDto orderItemDto) {
-        OrderItem orderItem = Mappers.getMapper(OrderItemMapper.class).toModel(orderItemDto);
-        orderService.addItem(orderItem);
-        return orderItem;
+        OrderItem orderItem = orderService.addItem(orderItemMapper.toModel(orderItemDto));
+        return orderItemMapper.toDto(orderItem);
     }
 
-    @ApiOperation(value = "updateCoffeeVarieties", notes = "Обновление заказа")
+    @ApiOperation(value = "updateOrder", notes = "Обновление заказа")
     @PutMapping("/update")
-    public Order updateOrder(@RequestBody OrderDto orderDto) {
-        Order order = Mappers.getMapper(OrderMapper.class).toModel(orderDto);
-        orderService.edit(order);
-        return order;
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Заказ успешно обновлен"),
+            @ApiResponse(code = 201, message = "Запрос принят и данные обновлены"),
+            @ApiResponse(code = 404, message = "Данный контролер не найден"),
+            @ApiResponse(code = 403, message = "Операция запрещена"),
+            @ApiResponse(code = 401, message = "Нет доступа к данной операции")
+    })
+    public OrderDto updateOrder(@RequestBody OrderDto orderDto) {
+        Order order = orderService.edit(orderMapper.toModel(orderDto));
+        return orderMapper.toDto(order);
     }
 
-    @ApiOperation(value = "deleteOrderById", notes = "Удаление заказа по id")
     @DeleteMapping("/delete/{id}")
+    @ApiOperation(value = "deleteOrderById", notes = "Удаление заказа по id")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Заказ успешно удален"),
+            @ApiResponse(code = 201, message = "Запрос принят и данные удалены"),
+            @ApiResponse(code = 404, message = "Данный контролер не найден"),
+            @ApiResponse(code = 403, message = "Операция запрещена"),
+            @ApiResponse(code = 401, message = "Нет доступа к данной операции")
+    })
     public void deleteOrderById(@ApiParam(
             name = "id",
             type = "Long",
