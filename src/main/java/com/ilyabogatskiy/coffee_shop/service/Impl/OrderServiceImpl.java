@@ -70,7 +70,7 @@ public class OrderServiceImpl implements OrderService {
             log.warn("Cорта кофе с указанным идентификатором ({}) нет в базе данных", orderItem.getCoffeeVariety().getId());
             throw new CoffeeVarietyNotFoundException("Сорта кофе с указанным идентификатором нет в базе данных");
         }
-        orderItem.setCoffeeVariety(orderItem.getCoffeeVariety());
+        orderItem.setCoffeeVariety(coffeeVariety);
         orderItem.setCups(orderItem.getCups());
         orderItem.setOrder(orderItem.getOrder());
         log.info("Позиция заказа ({}) добавлена", orderItem.getId());

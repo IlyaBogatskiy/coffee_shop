@@ -7,7 +7,7 @@ public class OrderItemDto {
 
     private Long id;
 
-    private CoffeeVarietyDto coffeeVarietyDto;
+    private Long coffeeVarietyId;
 
     private Integer cups;
 }
