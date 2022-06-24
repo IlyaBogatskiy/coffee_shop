@@ -19,7 +19,7 @@ CREATE TABLE order_item
 (
     id                BIGSERIAL NOT NULL PRIMARY KEY,
     coffee_variety_id BIGSERIAL NOT NULL,
-    cups              INTEGER   NOT NULL,
+    amount            INTEGER   NOT NULL,
     order_id          BIGSERIAL NOT NULL,
     FOREIGN KEY (coffee_variety_id) REFERENCES coffee_variety (id),
     FOREIGN KEY (order_id) REFERENCES orders (id)
