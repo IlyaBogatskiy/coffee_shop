@@ -1,0 +1,16 @@
+<div class="container">
+  <table class="table table-bordered table-striped">
+    <thead>
+    <tr>
+      <th>Сорт кофе</th>
+      <th>Цена</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let coffeeVariety of coffeeVarieties">
+      <td><span>{{coffeeVariety.name}}</span></td>
+      <td><span>{{coffeeVariety.price}}</span></td>
+    </tr>
+    </tbody>
+  </table>
+</div>

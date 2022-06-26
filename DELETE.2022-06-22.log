@@ -1,0 +1,11 @@
+22.06.2022 02:08:28.975 [http-nio-8080-exec-8] INFO  c.i.c.s.I.CoffeeVarietyServiceImpl - Сорт (string) добавлен
+22.06.2022 02:12:43.299 [http-nio-8080-exec-10] INFO  c.i.c.s.I.CoffeeVarietyServiceImpl - Сорт (Матча) добавлен
+22.06.2022 02:54:36.206 [http-nio-8080-exec-7] INFO  c.i.c.s.I.CoffeeVarietyServiceImpl - Сорт (string) удалён
+22.06.2022 02:54:44.508 [http-nio-8080-exec-8] INFO  c.i.c.s.I.CoffeeVarietyServiceImpl - Сорт (Матча) удалён
+22.06.2022 02:56:10.612 [http-nio-8080-exec-1] INFO  c.i.c.s.I.OrderServiceImpl - Позиция заказа (0) добавлена
+22.06.2022 02:57:13.195 [http-nio-8080-exec-2] INFO  c.i.c.s.I.OrderServiceImpl - Позиция заказа (0) добавлена
+22.06.2022 02:57:22.171 [http-nio-8080-exec-3] INFO  c.i.c.s.I.OrderServiceImpl - Позиция заказа (1) добавлена
+22.06.2022 03:10:40.105 [http-nio-8080-exec-9] INFO  c.i.c.s.I.OrderServiceImpl - Позиция заказа (1) добавлена
+22.06.2022 03:11:25.960 [http-nio-8080-exec-10] INFO  c.i.c.s.I.OrderServiceImpl - Позиция заказа (1) добавлена
+22.06.2022 03:11:41.873 [http-nio-8080-exec-1] INFO  c.i.c.s.I.OrderServiceImpl - Позиция заказа (0) добавлена
+22.06.2022 03:12:06.666 [http-nio-8080-exec-2] INFO  c.i.c.s.I.OrderServiceImpl - Позиция заказа (2) добавлена
