@@ -28,7 +28,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 @ContextConfiguration(classes = {CoffeeVarietyRestController.class})
 @ExtendWith(SpringExtension.class)
 class CoffeeVarietyRestControllerTest {
-
     @MockBean
     private CoffeeVarietyMapper coffeeVarietyMapper;
 
@@ -38,6 +37,9 @@ class CoffeeVarietyRestControllerTest {
     @MockBean
     private CoffeeVarietyService coffeeVarietyService;
 
+    /**
+     * Method under test: {@link CoffeeVarietyRestController#addCoffeeVariety(CoffeeVarietyDto)}
+     */
     @Test
     void testAddCoffeeVariety() throws Exception {
         CoffeeVariety coffeeVariety = new CoffeeVariety();
@@ -79,6 +81,9 @@ class CoffeeVarietyRestControllerTest {
                         .string("{\"id\":123,\"name\":\"Name\",\"price\":\"Price\",\"available\":true}"));
     }
 
+    /**
+     * Method under test: {@link CoffeeVarietyRestController#deleteCoffeeVarietyById(Long)}
+     */
     @Test
     void testDeleteCoffeeVarietyById() throws Exception {
         doNothing().when(this.coffeeVarietyService).delete((Long) any());
@@ -89,9 +94,27 @@ class CoffeeVarietyRestControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
+    /**
+     * Method under test: {@link CoffeeVarietyRestController#deleteCoffeeVarietyById(Long)}
+     */
+    @Test
+    void testDeleteCoffeeVarietyById2() throws Exception {
+        doNothing().when(this.coffeeVarietyService).delete((Long) any());
+        MockHttpServletRequestBuilder deleteResult = MockMvcRequestBuilders.delete("/variety/delete/{id}", 123L);
+        deleteResult.contentType("https://example.org/example");
+        MockMvcBuilders.standaloneSetup(this.coffeeVarietyRestController)
+                .build()
+                .perform(deleteResult)
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    /**
+     * Method under test: {@link CoffeeVarietyRestController#getAllAvailableCoffeeVarieties()}
+     */
     @Test
     void testGetAllAvailableCoffeeVarieties() throws Exception {
         when(this.coffeeVarietyService.findAllAvailable()).thenReturn(new ArrayList<>());
+        when(this.coffeeVarietyMapper.toDto((java.util.List<CoffeeVariety>) any())).thenReturn(new ArrayList<>());
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/variety/all_available");
         MockMvcBuilders.standaloneSetup(this.coffeeVarietyRestController)
                 .build()
@@ -101,9 +124,13 @@ class CoffeeVarietyRestControllerTest {
                 .andExpect(MockMvcResultMatchers.content().string("[]"));
     }
 
+    /**
+     * Method under test: {@link CoffeeVarietyRestController#getAllAvailableCoffeeVarieties()}
+     */
     @Test
     void testGetAllAvailableCoffeeVarieties2() throws Exception {
         when(this.coffeeVarietyService.findAllAvailable()).thenReturn(new ArrayList<>());
+        when(this.coffeeVarietyMapper.toDto((java.util.List<CoffeeVariety>) any())).thenReturn(new ArrayList<>());
         MockHttpServletRequestBuilder getResult = MockMvcRequestBuilders.get("/variety/all_available");
         getResult.contentType("https://example.org/example");
         MockMvcBuilders.standaloneSetup(this.coffeeVarietyRestController)
@@ -114,9 +141,13 @@ class CoffeeVarietyRestControllerTest {
                 .andExpect(MockMvcResultMatchers.content().string("[]"));
     }
 
+    /**
+     * Method under test: {@link CoffeeVarietyRestController#getAllCoffeeVarieties()}
+     */
     @Test
     void testGetAllCoffeeVarieties() throws Exception {
         when(this.coffeeVarietyService.findAll()).thenReturn(new ArrayList<>());
+        when(this.coffeeVarietyMapper.toDto((java.util.List<CoffeeVariety>) any())).thenReturn(new ArrayList<>());
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/variety/all");
         MockMvcBuilders.standaloneSetup(this.coffeeVarietyRestController)
                 .build()
@@ -126,9 +157,13 @@ class CoffeeVarietyRestControllerTest {
                 .andExpect(MockMvcResultMatchers.content().string("[]"));
     }
 
+    /**
+     * Method under test: {@link CoffeeVarietyRestController#getAllCoffeeVarieties()}
+     */
     @Test
     void testGetAllCoffeeVarieties2() throws Exception {
         when(this.coffeeVarietyService.findAll()).thenReturn(new ArrayList<>());
+        when(this.coffeeVarietyMapper.toDto((java.util.List<CoffeeVariety>) any())).thenReturn(new ArrayList<>());
         MockHttpServletRequestBuilder getResult = MockMvcRequestBuilders.get("/variety/all");
         getResult.contentType("https://example.org/example");
         MockMvcBuilders.standaloneSetup(this.coffeeVarietyRestController)
@@ -139,6 +174,9 @@ class CoffeeVarietyRestControllerTest {
                 .andExpect(MockMvcResultMatchers.content().string("[]"));
     }
 
+    /**
+     * Method under test: {@link CoffeeVarietyRestController#getCoffeeVarietyById(Long)}
+     */
     @Test
     void testGetCoffeeVarietyById() throws Exception {
         CoffeeVariety coffeeVariety = new CoffeeVariety();
@@ -157,6 +195,9 @@ class CoffeeVarietyRestControllerTest {
                         MockMvcResultMatchers.content().string("{\"id\":123,\"name\":\"Name\",\"price\":42,\"available\":true}"));
     }
 
+    /**
+     * Method under test: {@link CoffeeVarietyRestController#getCoffeeVarietyById(Long)}
+     */
     @Test
     void testGetCoffeeVarietyById2() throws Exception {
         CoffeeVariety coffeeVariety = new CoffeeVariety();
@@ -176,6 +217,9 @@ class CoffeeVarietyRestControllerTest {
                         MockMvcResultMatchers.content().string("{\"id\":123,\"name\":\"Name\",\"price\":42,\"available\":true}"));
     }
 
+    /**
+     * Method under test: {@link CoffeeVarietyRestController#updateCoffeeVarieties(CoffeeVarietyDto)}
+     */
     @Test
     void testUpdateCoffeeVarieties() throws Exception {
         CoffeeVariety coffeeVariety = new CoffeeVariety();
@@ -217,3 +261,4 @@ class CoffeeVarietyRestControllerTest {
                         .string("{\"id\":123,\"name\":\"Name\",\"price\":\"Price\",\"available\":true}"));
     }
 }
+

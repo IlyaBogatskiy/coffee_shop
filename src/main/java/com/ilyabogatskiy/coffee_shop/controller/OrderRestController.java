@@ -32,8 +32,8 @@ public class OrderRestController {
             @ApiResponse(code = 403, message = "Операция запрещена"),
             @ApiResponse(code = 401, message = "Нет доступа к данной операции")
     })
-    public List<Order> getAllOrders() {
-        return orderService.findAll();
+    public List<OrderDto> getAllOrders() {
+        return orderMapper.toDto(orderService.findAll());
     }
 
     @GetMapping("/find/{id}")
@@ -80,7 +80,7 @@ public class OrderRestController {
             @ApiResponse(code = 401, message = "Нет доступа к данной операции")}
     )
     public OrderItemDto createOrderItem(@ApiParam(value = "Создание новой позиции заказа")
-                                     @RequestBody OrderItemDto orderItemDto) {
+                                        @RequestBody OrderItemDto orderItemDto) {
         OrderItem orderItem = orderService.addItem(orderItemMapper.toModel(orderItemDto));
         return orderItemMapper.toDto(orderItem);
     }

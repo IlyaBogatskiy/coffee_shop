@@ -9,5 +9,7 @@ public class OrderItemDto {
 
     private Long coffeeVarietyId;
 
+    private Long orderId;
+
     private Integer cups;
 }

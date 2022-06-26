@@ -28,8 +28,8 @@ public class CoffeeVarietyRestController {
             @ApiResponse(code = 403, message = "Операция запрещена"),
             @ApiResponse(code = 401, message = "Нет доступа к данной операции")
     })
-    public List<CoffeeVariety> getAllCoffeeVarieties() {
-        return coffeeVarietyService.findAll();
+    public List<CoffeeVarietyDto> getAllCoffeeVarieties() {
+        return coffeeVarietyMapper.toDto(coffeeVarietyService.findAll());
     }
 
     @GetMapping("/all_available")
@@ -41,8 +41,8 @@ public class CoffeeVarietyRestController {
             @ApiResponse(code = 403, message = "Операция запрещена"),
             @ApiResponse(code = 401, message = "Нет доступа к данной операции")
     })
-    public List<CoffeeVariety> getAllAvailableCoffeeVarieties() {
-        return coffeeVarietyService.findAllAvailable();
+    public List<CoffeeVarietyDto> getAllAvailableCoffeeVarieties() {
+        return coffeeVarietyMapper.toDto(coffeeVarietyService.findAllAvailable());
     }
 
     @GetMapping("/find/{id}")

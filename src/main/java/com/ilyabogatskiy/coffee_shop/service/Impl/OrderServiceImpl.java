@@ -8,7 +8,6 @@ import com.ilyabogatskiy.coffee_shop.models.OrderItem;
 import com.ilyabogatskiy.coffee_shop.repository.CoffeeVarietyRepository;
 import com.ilyabogatskiy.coffee_shop.repository.OrderItemRepository;
 import com.ilyabogatskiy.coffee_shop.repository.OrderRepository;
-import com.ilyabogatskiy.coffee_shop.service.CoffeeVarietyService;
 import com.ilyabogatskiy.coffee_shop.service.OrderPriceCalculationService;
 import com.ilyabogatskiy.coffee_shop.service.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -72,7 +70,6 @@ public class OrderServiceImpl implements OrderService {
         }
         orderItem.setCoffeeVariety(coffeeVariety);
         orderItem.setCups(orderItem.getCups());
-        orderItem.setOrder(orderItem.getOrder());
         log.info("Позиция заказа ({}) добавлена", orderItem.getId());
         return orderItemRepository.saveAndFlush(orderItem);
     }
