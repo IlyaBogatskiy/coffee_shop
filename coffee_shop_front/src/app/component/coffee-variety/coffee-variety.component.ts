@@ -18,7 +18,7 @@ export class CoffeeVarietyComponent implements OnInit {
   }
 
   getOrders(){
-    this.httpClient.get<any>('http://localhost:8082/coffee_shop/variety/all').subscribe(
+    this.httpClient.get<any>('http://localhost:8082/coffee_shop/variety/all_available').subscribe(
       response => {
         console.log(response);
         this.coffeeVarieties = response;

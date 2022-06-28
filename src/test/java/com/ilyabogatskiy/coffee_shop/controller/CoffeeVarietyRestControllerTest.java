@@ -49,26 +49,20 @@ class CoffeeVarietyRestControllerTest {
         coffeeVariety.setPrice(BigDecimal.valueOf(42L));
         when(this.coffeeVarietyService.add((CoffeeVariety) any())).thenReturn(coffeeVariety);
 
-        CoffeeVarietyDto coffeeVarietyDto = new CoffeeVarietyDto();
-        coffeeVarietyDto.setAvailable(true);
-        coffeeVarietyDto.setId(123L);
-        coffeeVarietyDto.setName("Name");
-        coffeeVarietyDto.setPrice("Price");
-
         CoffeeVariety coffeeVariety1 = new CoffeeVariety();
         coffeeVariety1.setAvailable(true);
         coffeeVariety1.setId(123L);
         coffeeVariety1.setName("Name");
         coffeeVariety1.setPrice(BigDecimal.valueOf(42L));
-        when(this.coffeeVarietyMapper.toDto((CoffeeVariety) any())).thenReturn(coffeeVarietyDto);
+        when(this.coffeeVarietyMapper.toDto((CoffeeVariety) any())).thenReturn(new CoffeeVarietyDto());
         when(this.coffeeVarietyMapper.toModel((CoffeeVarietyDto) any())).thenReturn(coffeeVariety1);
 
-        CoffeeVarietyDto coffeeVarietyDto1 = new CoffeeVarietyDto();
-        coffeeVarietyDto1.setAvailable(true);
-        coffeeVarietyDto1.setId(123L);
-        coffeeVarietyDto1.setName("Name");
-        coffeeVarietyDto1.setPrice("Price");
-        String content = (new ObjectMapper()).writeValueAsString(coffeeVarietyDto1);
+        CoffeeVarietyDto coffeeVarietyDto = new CoffeeVarietyDto();
+        coffeeVarietyDto.setAvailable(true);
+        coffeeVarietyDto.setId(123L);
+        coffeeVarietyDto.setName("Name");
+        coffeeVarietyDto.setPrice(BigDecimal.valueOf(42L));
+        String content = (new ObjectMapper()).writeValueAsString(coffeeVarietyDto);
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/variety/add")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content);
@@ -77,8 +71,8 @@ class CoffeeVarietyRestControllerTest {
                 .perform(requestBuilder)
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
-                .andExpect(MockMvcResultMatchers.content()
-                        .string("{\"id\":123,\"name\":\"Name\",\"price\":\"Price\",\"available\":true}"));
+                .andExpect(
+                        MockMvcResultMatchers.content().string("{\"id\":null,\"name\":null,\"price\":null,\"available\":null}"));
     }
 
     /**
@@ -229,26 +223,20 @@ class CoffeeVarietyRestControllerTest {
         coffeeVariety.setPrice(BigDecimal.valueOf(42L));
         when(this.coffeeVarietyService.edit((CoffeeVariety) any())).thenReturn(coffeeVariety);
 
-        CoffeeVarietyDto coffeeVarietyDto = new CoffeeVarietyDto();
-        coffeeVarietyDto.setAvailable(true);
-        coffeeVarietyDto.setId(123L);
-        coffeeVarietyDto.setName("Name");
-        coffeeVarietyDto.setPrice("Price");
-
         CoffeeVariety coffeeVariety1 = new CoffeeVariety();
         coffeeVariety1.setAvailable(true);
         coffeeVariety1.setId(123L);
         coffeeVariety1.setName("Name");
         coffeeVariety1.setPrice(BigDecimal.valueOf(42L));
-        when(this.coffeeVarietyMapper.toDto((CoffeeVariety) any())).thenReturn(coffeeVarietyDto);
+        when(this.coffeeVarietyMapper.toDto((CoffeeVariety) any())).thenReturn(new CoffeeVarietyDto());
         when(this.coffeeVarietyMapper.toModel((CoffeeVarietyDto) any())).thenReturn(coffeeVariety1);
 
-        CoffeeVarietyDto coffeeVarietyDto1 = new CoffeeVarietyDto();
-        coffeeVarietyDto1.setAvailable(true);
-        coffeeVarietyDto1.setId(123L);
-        coffeeVarietyDto1.setName("Name");
-        coffeeVarietyDto1.setPrice("Price");
-        String content = (new ObjectMapper()).writeValueAsString(coffeeVarietyDto1);
+        CoffeeVarietyDto coffeeVarietyDto = new CoffeeVarietyDto();
+        coffeeVarietyDto.setAvailable(true);
+        coffeeVarietyDto.setId(123L);
+        coffeeVarietyDto.setName("Name");
+        coffeeVarietyDto.setPrice(BigDecimal.valueOf(42L));
+        String content = (new ObjectMapper()).writeValueAsString(coffeeVarietyDto);
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.put("/variety/update")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content);
@@ -257,8 +245,8 @@ class CoffeeVarietyRestControllerTest {
                 .perform(requestBuilder)
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
-                .andExpect(MockMvcResultMatchers.content()
-                        .string("{\"id\":123,\"name\":\"Name\",\"price\":\"Price\",\"available\":true}"));
+                .andExpect(
+                        MockMvcResultMatchers.content().string("{\"id\":null,\"name\":null,\"price\":null,\"available\":null}"));
     }
 }
 

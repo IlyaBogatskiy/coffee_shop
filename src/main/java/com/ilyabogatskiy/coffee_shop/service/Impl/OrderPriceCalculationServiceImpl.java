@@ -1,5 +1,6 @@
 package com.ilyabogatskiy.coffee_shop.service.Impl;
 
+import com.ilyabogatskiy.coffee_shop.exception.OrderItemNotFoundException;
 import com.ilyabogatskiy.coffee_shop.models.Order;
 import com.ilyabogatskiy.coffee_shop.models.OrderItem;
 import com.ilyabogatskiy.coffee_shop.service.OrderPriceCalculationService;
@@ -18,39 +19,44 @@ public class OrderPriceCalculationServiceImpl implements OrderPriceCalculationSe
     private Integer freeCup;
 
     @Value("${cafe.freeDelivery.x}")
-    private String freeDeliveryPrice;
+    private BigDecimal freeDeliveryPrice;
 
     @Value("${cafe.defaultDelivery.m}")
-    private String defaultDeliveryPrice;
+    private BigDecimal defaultDeliveryPrice;
 
     //Общая стоимость заказа
     @Override
-    public BigDecimal orderPriceCalculation(Order order) {
-        var orderPrice =  orderItemPriceCalculation(order);
-        return deliveryPriceWithDiscountCalculation(orderPrice);
+    public Order orderPriceCalculation(Order order) {
+        order.setOrderPrice(
+                order.getOrderItems()
+                        .stream()
+                        .map(this::orderItemPriceCalculation)
+                        .map(OrderItem::getOrderItemPrice)
+                        .reduce(BigDecimal::add)
+                        .orElseThrow(() -> new OrderItemNotFoundException("Позиции заказа " + order.getOrderItems() + " не найдены"))
+        );
+        var deliveryPrice = deliveryPriceWithDiscountCalculation(order);
+        order.setOrderPrice(order.getOrderPrice().add(deliveryPrice));
+        return order;
     }
 
-    //Стоимость ВСЕХ ПОЗИЦИЙ ЗАКАЗА
-    private BigDecimal orderItemPriceCalculation(Order order) {
-        var fullPrice = new BigDecimal(0);
-
-        for (OrderItem orderItem : order.getOrderItems()) {
-            var cupCount = orderItem.getCups();
-            var orderPrice = orderItem.getCoffeeVariety().getPrice();
-            fullPrice = orderPrice.multiply(BigDecimal.valueOf(cupCount - cupCount / freeCup));
-        }
-
-        return fullPrice;
+    //Стоимость ПОЗИЦИИ ЗАКАЗА
+    @Override
+    public OrderItem orderItemPriceCalculation(OrderItem orderItem) {
+        var cupCount = orderItem.getCups();
+        var orderPrice = orderItem.getCoffeeVariety().getPrice();
+        var itemPrice = orderPrice.multiply(BigDecimal.valueOf(cupCount - cupCount / freeCup));
+        orderItem.setOrderItemPrice(itemPrice);
+        return orderItem;
     }
 
-    //Стоимость доставки с учетом скидки на доставку
-    private BigDecimal deliveryPriceWithDiscountCalculation(BigDecimal orderPrice) {
-        if (orderPrice.compareTo(new BigDecimal(freeDeliveryPrice)) > 0) {
-            log.info("Стоимость доставки ({})", orderPrice);
-            return orderPrice;
+    //Стоимость доставки с учетом скидки
+    private BigDecimal deliveryPriceWithDiscountCalculation(Order order) {
+        var orderPrice = order.getOrderPrice();
+        if (orderPrice.compareTo(freeDeliveryPrice) < 0 && order.getOrderItems().size() > 0) {
+            log.info("Стоимость доставки ({})", defaultDeliveryPrice);
+            return defaultDeliveryPrice;
         }
-        var totalPrice = orderPrice.add(new BigDecimal(defaultDeliveryPrice));
-        log.info("Стоимость доставки ({})", totalPrice);
-        return totalPrice;
+        return BigDecimal.ZERO;
     }
 }

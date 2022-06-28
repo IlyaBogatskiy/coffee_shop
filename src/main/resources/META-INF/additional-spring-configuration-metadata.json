@@ -4,5 +4,10 @@
       "name": "application.swagger.enabled",
       "type": "java.lang.String",
       "description": "Description for application.swagger.enabled."
-  }
-] }
+    },
+    {
+      "name": "application.swagger.version",
+      "type": "java.lang.String",
+      "description": "Description for application.swagger.version."
+    }
+  ] }

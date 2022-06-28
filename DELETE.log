@@ -43,3 +43,54 @@
 26.06.2022 18:26:27.526 [http-nio-8081-exec-7] INFO  c.i.c.s.I.OrderServiceImpl - Позиция заказа (null) добавлена
 26.06.2022 18:35:14.038 [http-nio-8081-exec-8] INFO  c.i.c.s.I.OrderServiceImpl - Позиция заказа (null) добавлена
 26.06.2022 18:37:20.103 [http-nio-8081-exec-7] INFO  c.i.c.s.I.OrderServiceImpl - Позиция заказа (null) добавлена
+27.06.2022 11:09:16.775 [http-nio-8082-exec-8] INFO  c.i.c.s.I.OrderServiceImpl - Позиция заказа (null) добавлена
+27.06.2022 11:09:41.165 [http-nio-8082-exec-9] INFO  c.i.c.s.I.OrderServiceImpl - Позиция заказа (null) добавлена
+28.06.2022 00:21:24.343 [http-nio-8082-exec-7] INFO  c.i.c.s.I.OrderPriceCalculationServiceImpl - Стоимость доставки (2)
+28.06.2022 00:21:24.358 [http-nio-8082-exec-7] INFO  c.i.c.s.I.OrderServiceImpl - Заказ (0) на сумму (2) добавлен
+28.06.2022 00:21:46.219 [http-nio-8082-exec-8] INFO  c.i.c.s.I.OrderServiceImpl - Позиция заказа (null) добавлена
+28.06.2022 00:22:45.376 [http-nio-8082-exec-9] INFO  c.i.c.s.I.OrderServiceImpl - Позиция заказа (null) добавлена
+28.06.2022 01:23:35.718 [http-nio-8082-exec-7] WARN  c.i.c.s.I.OrderServiceImpl - Cорта кофе с указанным идентификатором (0) нет в базе данных
+28.06.2022 01:23:51.328 [http-nio-8082-exec-8] INFO  c.i.c.s.I.OrderServiceImpl - Позиция заказа (0) добавлена
+28.06.2022 01:24:51.268 [http-nio-8082-exec-9] INFO  c.i.c.s.I.OrderServiceImpl - Позиция заказа (0) добавлена
+28.06.2022 12:51:35.940 [http-nio-8082-exec-2] INFO  c.i.c.s.I.OrderServiceImpl - Заказ (null) на сумму (null) добавлен
+28.06.2022 13:03:09.597 [http-nio-8082-exec-7] INFO  c.i.c.s.I.OrderServiceImpl - Заказ (null) на сумму (null) добавлен
+28.06.2022 13:04:59.086 [http-nio-8082-exec-7] INFO  c.i.c.s.I.OrderServiceImpl - Заказ (null) на сумму (null) добавлен
+28.06.2022 13:40:48.602 [http-nio-8082-exec-7] WARN  c.i.c.s.I.OrderServiceImpl - Сорта кофе с указанным идентификатором (0) нет в базе данных
+28.06.2022 16:14:03.764 [http-nio-8082-exec-8] INFO  c.i.c.s.I.OrderServiceImpl - Позиция заказа (null) добавлена
+28.06.2022 20:30:45.731 [http-nio-8082-exec-7] INFO  c.i.c.s.I.OrderServiceImpl - Позиция заказа (null) добавлена
+28.06.2022 20:30:45.788 [http-nio-8082-exec-7] INFO  c.i.c.s.I.OrderPriceCalculationServiceImpl - Стоимость доставки (2)
+28.06.2022 20:30:45.788 [http-nio-8082-exec-7] INFO  c.i.c.s.I.OrderServiceImpl - Заказ (null) на сумму (2) добавлен
+28.06.2022 20:33:12.539 [http-nio-8082-exec-10] INFO  c.i.c.s.I.OrderServiceImpl - Позиция заказа (null) добавлена
+28.06.2022 20:33:12.544 [http-nio-8082-exec-10] INFO  c.i.c.s.I.OrderPriceCalculationServiceImpl - Стоимость доставки (2)
+28.06.2022 20:33:12.545 [http-nio-8082-exec-10] INFO  c.i.c.s.I.OrderServiceImpl - Заказ (null) на сумму (2) добавлен
+28.06.2022 20:41:35.500 [http-nio-8082-exec-7] INFO  c.i.c.s.I.OrderServiceImpl - Позиция заказа (0) добавлена
+28.06.2022 20:41:35.542 [http-nio-8082-exec-7] INFO  c.i.c.s.I.OrderPriceCalculationServiceImpl - Стоимость доставки (2)
+28.06.2022 20:41:35.542 [http-nio-8082-exec-7] INFO  c.i.c.s.I.OrderServiceImpl - Заказ (0) на сумму (2) добавлен
+28.06.2022 20:45:31.230 [http-nio-8082-exec-7] INFO  c.i.c.s.I.OrderServiceImpl - Позиция заказа (0) добавлена
+28.06.2022 20:45:31.279 [http-nio-8082-exec-7] INFO  c.i.c.s.I.OrderPriceCalculationServiceImpl - Стоимость доставки (2)
+28.06.2022 20:45:31.280 [http-nio-8082-exec-7] INFO  c.i.c.s.I.OrderServiceImpl - Заказ (null) на сумму (2) добавлен
+28.06.2022 20:50:42.097 [http-nio-8082-exec-7] INFO  c.i.c.s.I.OrderServiceImpl - Позиция заказа (null) добавлена
+28.06.2022 20:50:42.129 [http-nio-8082-exec-7] INFO  c.i.c.s.I.OrderPriceCalculationServiceImpl - Стоимость доставки (2)
+28.06.2022 20:50:42.129 [http-nio-8082-exec-7] INFO  c.i.c.s.I.OrderServiceImpl - Заказ (null) на сумму (2) добавлен
+28.06.2022 20:52:35.442 [http-nio-8082-exec-10] INFO  c.i.c.s.I.OrderServiceImpl - Позиция заказа (null) добавлена
+28.06.2022 20:52:35.447 [http-nio-8082-exec-10] INFO  c.i.c.s.I.OrderPriceCalculationServiceImpl - Стоимость доставки (2)
+28.06.2022 20:52:35.447 [http-nio-8082-exec-10] INFO  c.i.c.s.I.OrderServiceImpl - Заказ (null) на сумму (2) добавлен
+28.06.2022 21:22:28.219 [http-nio-8082-exec-7] INFO  c.i.c.s.I.OrderServiceImpl - Позиция заказа (null) добавлена
+28.06.2022 21:25:09.223 [http-nio-8082-exec-9] INFO  c.i.c.s.I.OrderServiceImpl - Позиция заказа (null) добавлена
+28.06.2022 21:29:38.265 [http-nio-8082-exec-1] INFO  c.i.c.s.I.OrderServiceImpl - Позиция заказа (null) добавлена
+28.06.2022 21:29:38.302 [http-nio-8082-exec-1] INFO  c.i.c.s.I.OrderPriceCalculationServiceImpl - Стоимость доставки (40)
+28.06.2022 21:29:38.302 [http-nio-8082-exec-1] INFO  c.i.c.s.I.OrderServiceImpl - Заказ (null) на сумму (Order(id=null, orderDateTime=2022-06-28T18:22:11.214, customerName=Илья, deliveryAddress=г. Тула, ул. Епифанская, 33, orderPrice=80, orderItems=[OrderItem(id=10, coffeeVariety=CoffeeVariety(id=3, name=Раф, price=5, available=true), cups=10, orderItemPrice=40)])) добавлен
+29.06.2022 00:09:46.556 [http-nio-8082-exec-7] INFO  c.i.c.s.I.OrderServiceImpl - Позиция заказа (null) добавлена
+29.06.2022 00:09:46.592 [http-nio-8082-exec-7] INFO  c.i.c.s.I.OrderPriceCalculationServiceImpl - Стоимость доставки (20)
+29.06.2022 00:09:46.592 [http-nio-8082-exec-7] INFO  c.i.c.s.I.OrderServiceImpl - Заказ (null) на сумму (Order(id=null, orderDateTime=2022-06-28T21:09:11.098, customerName=string, deliveryAddress=string, orderPrice=40, orderItems=[OrderItem(id=11, coffeeVariety=CoffeeVariety(id=3, name=Раф, price=5, available=true), cups=5, orderItemPrice=20)])) добавлен
+29.06.2022 00:16:12.140 [http-nio-8082-exec-7] INFO  c.i.c.s.I.OrderServiceImpl - Позиция заказа (null) добавлена
+29.06.2022 00:16:12.172 [http-nio-8082-exec-7] INFO  c.i.c.s.I.OrderPriceCalculationServiceImpl - Стоимость доставки (2)
+29.06.2022 00:16:12.172 [http-nio-8082-exec-7] INFO  c.i.c.s.I.OrderServiceImpl - Заказ (null) на сумму (Order(id=null, orderDateTime=2022-06-28T21:15:24.146, customerName=Попов Иван, deliveryAddress=г. Тула, ул. Академика Шипунова, orderPrice=5, orderItems=[OrderItem(id=12, coffeeVariety=CoffeeVariety(id=6, name=Эспрессо, price=1, available=true), cups=3, orderItemPrice=3)])) добавлен
+29.06.2022 00:27:19.323 [http-nio-8082-exec-9] INFO  c.i.c.s.I.OrderServiceImpl - Позиция заказа (0) добавлена
+29.06.2022 00:27:19.369 [http-nio-8082-exec-9] INFO  c.i.c.s.I.OrderServiceImpl - Заказ (0) на сумму (Order(id=0, orderDateTime=2022-06-28T21:26:07.657, customerName=Андрей Демиков, deliveryAddress=г. Тула, ул. Металлистов, orderPrice=15, orderItems=[OrderItem(id=0, coffeeVariety=CoffeeVariety(id=2, name=Капучино, price=3, available=true), cups=6, orderItemPrice=15)])) добавлен
+29.06.2022 00:27:48.532 [http-nio-8082-exec-10] INFO  c.i.c.s.I.OrderServiceImpl - Позиция заказа (1) добавлена
+29.06.2022 00:27:48.539 [http-nio-8082-exec-10] INFO  c.i.c.s.I.OrderServiceImpl - Заказ (0) на сумму (Order(id=0, orderDateTime=2022-06-28T21:26:07.657, customerName=Андрей Демиков, deliveryAddress=г. Тула, ул. Металлистов, orderPrice=15, orderItems=[OrderItem(id=1, coffeeVariety=CoffeeVariety(id=2, name=Капучино, price=3, available=true), cups=6, orderItemPrice=15)])) добавлен
+29.06.2022 00:33:21.533 [http-nio-8082-exec-9] INFO  c.i.c.s.I.OrderServiceImpl - Позиция заказа (null) добавлена
+29.06.2022 00:33:21.571 [http-nio-8082-exec-9] INFO  c.i.c.s.I.OrderServiceImpl - Заказ (0) на сумму (15) добавлен
+29.06.2022 00:47:36.410 [http-nio-8082-exec-7] INFO  c.i.c.s.I.OrderServiceImpl - Позиция заказа (null) добавлена
+29.06.2022 00:47:36.449 [http-nio-8082-exec-7] INFO  c.i.c.s.I.OrderServiceImpl - Заказ (Order(id=0, orderDateTime=2022-06-28T21:46:40.871, customerName=Демиков Андрей, deliveryAddress=г. Тула, проспект Ленина, СМАРТЕК, orderPrice=16, orderItems=[OrderItem(id=1, coffeeVariety=CoffeeVariety(id=1, name=Американо, price=2, available=true), cups=10, orderItemPrice=16)])) на сумму (16) добавлен

@@ -5,16 +5,17 @@ import com.ilyabogatskiy.coffee_shop.models.OrderItem;
 import com.ilyabogatskiy.coffee_shop.service.CoffeeVarietyService;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 
 @Mapper(componentModel = "spring", uses = {CoffeeVarietyService.class})
 public interface OrderItemMapper {
 
-    @Mapping(target = "orderId", source = "order.id")
     @Mapping(target = "coffeeVarietyId", source = "coffeeVariety.id")
     OrderItemDto toDto(OrderItem orderItem);
 
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "order", ignore = true)
-    @Mapping(target = "coffeeVariety", source = "coffeeVarietyId")
+    @Mappings({
+            @Mapping(target = "id", ignore = true),
+            @Mapping(target = "coffeeVariety.id", source = "coffeeVarietyId")
+    })
     OrderItem toModel(OrderItemDto orderItemDto);
 }

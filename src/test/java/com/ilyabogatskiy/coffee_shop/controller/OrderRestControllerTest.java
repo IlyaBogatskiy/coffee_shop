@@ -1,23 +1,35 @@
 package com.ilyabogatskiy.coffee_shop.controller;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ilyabogatskiy.coffee_shop.dto.OrderDto;
 import com.ilyabogatskiy.coffee_shop.dto.OrderItemDto;
 import com.ilyabogatskiy.coffee_shop.mapper.OrderItemMapper;
+import com.ilyabogatskiy.coffee_shop.mapper.OrderItemMapperImpl;
 import com.ilyabogatskiy.coffee_shop.mapper.OrderMapper;
+import com.ilyabogatskiy.coffee_shop.mapper.OrderMapperImpl;
 import com.ilyabogatskiy.coffee_shop.models.CoffeeVariety;
 import com.ilyabogatskiy.coffee_shop.models.Order;
 import com.ilyabogatskiy.coffee_shop.models.OrderItem;
+import com.ilyabogatskiy.coffee_shop.repository.CoffeeVarietyRepository;
+import com.ilyabogatskiy.coffee_shop.repository.OrderItemRepository;
+import com.ilyabogatskiy.coffee_shop.repository.OrderRepository;
+import com.ilyabogatskiy.coffee_shop.service.Impl.OrderPriceCalculationServiceImpl;
+import com.ilyabogatskiy.coffee_shop.service.Impl.OrderServiceImpl;
 import com.ilyabogatskiy.coffee_shop.service.OrderService;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,54 +59,31 @@ class OrderRestControllerTest {
     private OrderService orderService;
 
     @Test
-    void testCreateOrder() throws Exception {
+    void testCreateOrder() {
         Order order = new Order();
         order.setCustomerName("Customer Name");
         order.setDeliveryAddress("42 Main St");
         order.setId(123L);
         order.setOrderDateTime(LocalDateTime.of(1, 1, 1, 1, 1));
-        order.setOrderItems(new ArrayList<>());
-        order.setOrderPrice(BigDecimal.valueOf(42L));
-        when(this.orderService.add((Order) any())).thenReturn(order);
-
-        OrderDto orderDto = new OrderDto();
-        orderDto.setCustomerName("Customer Name");
-        orderDto.setDeliveryAddress("42 Main St");
-        orderDto.setId(123L);
-        orderDto.setOrderDateTime("2020-03-01");
-        orderDto.setOrderItemDtos(new ArrayList<>());
-        orderDto.setOrderPrice("Order Price");
-
-        Order order1 = new Order();
-        order1.setCustomerName("Customer Name");
-        order1.setDeliveryAddress("42 Main St");
-        order1.setId(123L);
-        order1.setOrderDateTime(LocalDateTime.of(1, 1, 1, 1, 1));
-        order1.setOrderItems(new ArrayList<>());
-        order1.setOrderPrice(BigDecimal.valueOf(42L));
-        when(this.orderMapper.toDto((Order) any())).thenReturn(orderDto);
-        when(this.orderMapper.toModel((OrderDto) any())).thenReturn(order1);
-
-        OrderDto orderDto1 = new OrderDto();
-        orderDto1.setCustomerName("Customer Name");
-        orderDto1.setDeliveryAddress("42 Main St");
-        orderDto1.setId(123L);
-        orderDto1.setOrderDateTime("2020-03-01");
-        orderDto1.setOrderItemDtos(new ArrayList<>());
-        orderDto1.setOrderPrice("Order Price");
-        String content = (new ObjectMapper()).writeValueAsString(orderDto1);
-        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/order/create")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(content);
-        MockMvcBuilders.standaloneSetup(this.orderRestController)
-                .build()
-                .perform(requestBuilder)
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
-                .andExpect(MockMvcResultMatchers.content()
-                        .string(
-                                "{\"id\":123,\"orderDateTime\":\"2020-03-01\",\"customerName\":\"Customer Name\",\"deliveryAddress\":\"42 Main"
-                                        + " St\",\"orderPrice\":\"Order Price\",\"orderItemDtos\":[]}"));
+        ArrayList<OrderItem> orderItemList = new ArrayList<>();
+        order.setOrderItems(orderItemList);
+        BigDecimal valueOfResult = BigDecimal.valueOf(42L);
+        order.setOrderPrice(valueOfResult);
+        OrderServiceImpl orderServiceImpl = mock(OrderServiceImpl.class);
+        when(orderServiceImpl.add((Order) any())).thenReturn(order);
+        OrderMapperImpl orderMapper = new OrderMapperImpl();
+        OrderRestController orderRestController = new OrderRestController(orderServiceImpl, orderMapper,
+                new OrderItemMapperImpl());
+        OrderDto actualCreateOrderResult = orderRestController.createOrder(new OrderDto());
+        assertEquals("Customer Name", actualCreateOrderResult.getCustomerName());
+        BigDecimal orderPrice = actualCreateOrderResult.getOrderPrice();
+        assertSame(valueOfResult, orderPrice);
+        assertEquals(orderItemList, actualCreateOrderResult.getOrderItemDtos());
+        assertEquals("42 Main St", actualCreateOrderResult.getDeliveryAddress());
+        assertEquals(123L, actualCreateOrderResult.getId().longValue());
+        assertEquals("0001-01-01", actualCreateOrderResult.getOrderDateTime().toLocalDate().toString());
+        assertEquals("42", orderPrice.toString());
+        verify(orderServiceImpl).add((Order) any());
     }
 
     @Test
@@ -105,26 +94,12 @@ class OrderRestControllerTest {
         coffeeVariety.setName("Name");
         coffeeVariety.setPrice(BigDecimal.valueOf(42L));
 
-        Order order = new Order();
-        order.setCustomerName("Customer Name");
-        order.setDeliveryAddress("42 Main St");
-        order.setId(123L);
-        order.setOrderDateTime(LocalDateTime.of(1, 1, 1, 1, 1));
-        order.setOrderItems(new ArrayList<>());
-        order.setOrderPrice(BigDecimal.valueOf(42L));
-
         OrderItem orderItem = new OrderItem();
         orderItem.setCoffeeVariety(coffeeVariety);
         orderItem.setCups(1);
         orderItem.setId(123L);
-        orderItem.setOrder(order);
+        orderItem.setOrderItemPrice(BigDecimal.valueOf(42L));
         when(this.orderService.addItem((OrderItem) any())).thenReturn(orderItem);
-
-        OrderItemDto orderItemDto = new OrderItemDto();
-        orderItemDto.setCoffeeVarietyId(123L);
-        orderItemDto.setCups(1);
-        orderItemDto.setId(123L);
-        orderItemDto.setOrderId(123L);
 
         CoffeeVariety coffeeVariety1 = new CoffeeVariety();
         coffeeVariety1.setAvailable(true);
@@ -132,28 +107,20 @@ class OrderRestControllerTest {
         coffeeVariety1.setName("Name");
         coffeeVariety1.setPrice(BigDecimal.valueOf(42L));
 
-        Order order1 = new Order();
-        order1.setCustomerName("Customer Name");
-        order1.setDeliveryAddress("42 Main St");
-        order1.setId(123L);
-        order1.setOrderDateTime(LocalDateTime.of(1, 1, 1, 1, 1));
-        order1.setOrderItems(new ArrayList<>());
-        order1.setOrderPrice(BigDecimal.valueOf(42L));
-
         OrderItem orderItem1 = new OrderItem();
         orderItem1.setCoffeeVariety(coffeeVariety1);
         orderItem1.setCups(1);
         orderItem1.setId(123L);
-        orderItem1.setOrder(order1);
-        when(this.orderItemMapper.toDto((OrderItem) any())).thenReturn(orderItemDto);
+        orderItem1.setOrderItemPrice(BigDecimal.valueOf(42L));
+        when(this.orderItemMapper.toDto((OrderItem) any())).thenReturn(new OrderItemDto());
         when(this.orderItemMapper.toModel((OrderItemDto) any())).thenReturn(orderItem1);
 
-        OrderItemDto orderItemDto1 = new OrderItemDto();
-        orderItemDto1.setCoffeeVarietyId(123L);
-        orderItemDto1.setCups(1);
-        orderItemDto1.setId(123L);
-        orderItemDto1.setOrderId(123L);
-        String content = (new ObjectMapper()).writeValueAsString(orderItemDto1);
+        OrderItemDto orderItemDto = new OrderItemDto();
+        orderItemDto.setCoffeeVarietyId(123L);
+        orderItemDto.setCups(1);
+        orderItemDto.setId(123L);
+        orderItemDto.setOrderItemPrice(BigDecimal.valueOf(42L));
+        String content = (new ObjectMapper()).writeValueAsString(orderItemDto);
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/order/create_item")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content);
@@ -162,8 +129,8 @@ class OrderRestControllerTest {
                 .perform(requestBuilder)
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
-                .andExpect(
-                        MockMvcResultMatchers.content().string("{\"id\":123,\"coffeeVarietyId\":123,\"orderId\":123,\"cups\":1}"));
+                .andExpect(MockMvcResultMatchers.content()
+                        .string("{\"id\":null,\"coffeeVarietyId\":null,\"cups\":null,\"orderItemPrice\":null}"));
     }
 
     @Test
@@ -270,14 +237,6 @@ class OrderRestControllerTest {
         order.setOrderPrice(BigDecimal.valueOf(42L));
         when(this.orderService.edit((Order) any())).thenReturn(order);
 
-        OrderDto orderDto = new OrderDto();
-        orderDto.setCustomerName("Customer Name");
-        orderDto.setDeliveryAddress("42 Main St");
-        orderDto.setId(123L);
-        orderDto.setOrderDateTime("2020-03-01");
-        orderDto.setOrderItemDtos(new ArrayList<>());
-        orderDto.setOrderPrice("Order Price");
-
         Order order1 = new Order();
         order1.setCustomerName("Customer Name");
         order1.setDeliveryAddress("42 Main St");
@@ -285,17 +244,17 @@ class OrderRestControllerTest {
         order1.setOrderDateTime(LocalDateTime.of(1, 1, 1, 1, 1));
         order1.setOrderItems(new ArrayList<>());
         order1.setOrderPrice(BigDecimal.valueOf(42L));
-        when(this.orderMapper.toDto((Order) any())).thenReturn(orderDto);
+        when(this.orderMapper.toDto((Order) any())).thenReturn(new OrderDto());
         when(this.orderMapper.toModel((OrderDto) any())).thenReturn(order1);
 
-        OrderDto orderDto1 = new OrderDto();
-        orderDto1.setCustomerName("Customer Name");
-        orderDto1.setDeliveryAddress("42 Main St");
-        orderDto1.setId(123L);
-        orderDto1.setOrderDateTime("2020-03-01");
-        orderDto1.setOrderItemDtos(new ArrayList<>());
-        orderDto1.setOrderPrice("Order Price");
-        String content = (new ObjectMapper()).writeValueAsString(orderDto1);
+        OrderDto orderDto = new OrderDto();
+        orderDto.setCustomerName("Customer Name");
+        orderDto.setDeliveryAddress("42 Main St");
+        orderDto.setId(123L);
+        orderDto.setOrderDateTime(null);
+        orderDto.setOrderItemDtos(new ArrayList<>());
+        orderDto.setOrderPrice(BigDecimal.valueOf(42L));
+        String content = (new ObjectMapper()).writeValueAsString(orderDto);
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.put("/order/update")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content);
@@ -306,8 +265,8 @@ class OrderRestControllerTest {
                 .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
                 .andExpect(MockMvcResultMatchers.content()
                         .string(
-                                "{\"id\":123,\"orderDateTime\":\"2020-03-01\",\"customerName\":\"Customer Name\",\"deliveryAddress\":\"42 Main"
-                                        + " St\",\"orderPrice\":\"Order Price\",\"orderItemDtos\":[]}"));
+                                "{\"id\":null,\"orderDateTime\":null,\"customerName\":null,\"deliveryAddress\":null,\"orderPrice\":null,\"orderItemDtos"
+                                        + "\":null}"));
     }
 }
 
