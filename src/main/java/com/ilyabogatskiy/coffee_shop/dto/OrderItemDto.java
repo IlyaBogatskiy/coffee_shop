@@ -1,14 +1,8 @@
 package com.ilyabogatskiy.coffee_shop.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import java.math.BigDecimal;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class OrderItemDto {
 
     private Long id;
@@ -17,5 +11,5 @@ public class OrderItemDto {
 
     private Integer cups;
 
-    private BigDecimal orderItemPrice;
+    private String orderItemPrice;
 }

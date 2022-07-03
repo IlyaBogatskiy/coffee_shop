@@ -2,17 +2,19 @@ package com.ilyabogatskiy.coffee_shop.service.Impl;
 
 import com.ilyabogatskiy.coffee_shop.exception.CoffeeVarietyNotFoundException;
 import com.ilyabogatskiy.coffee_shop.exception.OrderNotFoundException;
+import com.ilyabogatskiy.coffee_shop.models.CoffeeVariety;
 import com.ilyabogatskiy.coffee_shop.models.Order;
 import com.ilyabogatskiy.coffee_shop.models.OrderItem;
-import com.ilyabogatskiy.coffee_shop.repository.CoffeeVarietyRepository;
 import com.ilyabogatskiy.coffee_shop.repository.OrderItemRepository;
 import com.ilyabogatskiy.coffee_shop.repository.OrderRepository;
+import com.ilyabogatskiy.coffee_shop.service.CoffeeVarietyService;
 import com.ilyabogatskiy.coffee_shop.service.OrderPriceCalculationService;
 import com.ilyabogatskiy.coffee_shop.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
+import javax.transaction.Transactional;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Slf4j
@@ -22,8 +24,9 @@ public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
+
+    private final CoffeeVarietyService coffeeVarietyService;
     private final OrderPriceCalculationService orderPriceCalculationService;
-    private final CoffeeVarietyRepository coffeeVarietyRepository;
 
     @Override
     public List<Order> findAll() {
@@ -40,9 +43,22 @@ public class OrderServiceImpl implements OrderService {
         return maybeOrder;
     }
 
+
+    @Transactional
+    @Override
+    public Order add(Order order) {
+        for (OrderItem orderItem : order.getOrderItems()) {
+            addItem(orderItem);
+        }
+        BigDecimal orderTotalPrice = orderPriceCalculationService.orderPriceCalculation(order);
+        order.setOrderPrice(orderTotalPrice);
+        log.info("Заказ добавлен на сумму ({}) добавлен", order.getOrderPrice());
+        return orderRepository.saveAndFlush(order);
+    }
+
     @Override
     public void delete(Long id) {
-        var maybeOrder = orderRepository.findById(id).orElse(null);
+        Order maybeOrder = orderRepository.findById(id).orElse(null);
         if (maybeOrder == null) {
             log.warn("Заказа с указанным идентификатором ({}) нет в базе данных", id);
             throw new OrderNotFoundException("Заказа с указанным идентификатором нет в базе данных");
@@ -51,47 +67,13 @@ public class OrderServiceImpl implements OrderService {
         orderRepository.deleteById(id);
     }
 
-    @Override
-    public Order add(Order order) {
-        order.setOrderDateTime(order.getOrderDateTime());
-        order.setCustomerName(order.getCustomerName());
-        order.setDeliveryAddress(order.getDeliveryAddress());
-        for (OrderItem orderItem : order.getOrderItems()) {
-            addItem(orderItem);
-        }
-        var totalPrice = orderPriceCalculationService.orderPriceCalculation(order);
-        log.info("Заказ ({}) на сумму ({}) добавлен", totalPrice, order.getOrderPrice());
-        return orderRepository.saveAndFlush(totalPrice);
-    }
+    private OrderItem addItem(OrderItem orderItem) {
 
-    @Override
-    public OrderItem addItem(OrderItem orderItem) {
-        var coffeeVariety = coffeeVarietyRepository.findById(orderItem.getCoffeeVariety().getId()).orElse(null);
-        if (coffeeVariety == null) {
-            log.warn("Cорта кофе с указанным идентификатором ({}) нет в базе данных", orderItem.getCoffeeVariety().getId());
-            throw new CoffeeVarietyNotFoundException("Сорта кофе с указанным идентификатором нет в базе данных");
-        }
+        CoffeeVariety coffeeVariety = coffeeVarietyService.findById(orderItem.getCoffeeVariety().getId());
         orderItem.setCoffeeVariety(coffeeVariety);
-        orderItem.setCups(orderItem.getCups());
-        var itemPrice = orderPriceCalculationService.orderItemPriceCalculation(orderItem);
-        log.info("Позиция заказа ({}) добавлена", orderItem.getId());
-        return orderItemRepository.saveAndFlush(itemPrice);
-    }
-
-    @Override
-    public Order edit(Order order) {
-        var maybeOrder = orderRepository.findById(order.getId()).orElse(null);
-        if (maybeOrder == null) {
-            log.warn("Заказа с указанным идентификатором ({}) нет в базе данных", order.getId());
-            throw new OrderNotFoundException("Заказа с указанным идентификатором нет в базе данных");
-        }
-        order.setOrderDateTime(order.getOrderDateTime());
-        order.setCustomerName(order.getCustomerName());
-        for (OrderItem orderItem : order.getOrderItems()) {
-            addItem(orderItem);
-        }
-        var totalPrice = orderPriceCalculationService.orderPriceCalculation(order);
-        log.info("Заказ ({}) изменен, сумма перерасчитана ({})", totalPrice, order.getOrderPrice());
-        return orderRepository.saveAndFlush(totalPrice);
+        BigDecimal itemTotalPrice = orderPriceCalculationService.orderItemPriceCalculation(orderItem);
+        orderItem.setOrderItemPrice(itemTotalPrice);
+        log.info("Позиция заказа ({}) ({})шт. на сумму ({}) добавлена", orderItem.getCoffeeVariety().getName(), orderItem.getCups(), itemTotalPrice);
+        return orderItemRepository.saveAndFlush(orderItem);
     }
 }

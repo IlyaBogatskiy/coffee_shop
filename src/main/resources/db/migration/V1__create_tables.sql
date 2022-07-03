@@ -1,6 +1,6 @@
 CREATE TABLE coffee_variety
 (
-    id                   BIGSERIAL    NOT NULL PRIMARY KEY,
+    id                   BIGSERIAL NOT NULL PRIMARY KEY,
     name_of_variety      VARCHAR(255),
     price                DECIMAL,
     variety_availability BOOLEAN
@@ -8,7 +8,7 @@ CREATE TABLE coffee_variety
 
 CREATE TABLE orders
 (
-    id          BIGSERIAL    NOT NULL PRIMARY KEY,
+    id          BIGSERIAL NOT NULL PRIMARY KEY,
     date        TIMESTAMP WITHOUT TIME ZONE,
     customer    VARCHAR(255),
     address     VARCHAR(255),

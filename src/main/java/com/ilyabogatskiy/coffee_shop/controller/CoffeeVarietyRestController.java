@@ -1,18 +1,17 @@
 package com.ilyabogatskiy.coffee_shop.controller;
 
 import com.ilyabogatskiy.coffee_shop.dto.CoffeeVarietyDto;
-import com.ilyabogatskiy.coffee_shop.mapper.CoffeeVarietyMapper;
+import com.ilyabogatskiy.coffee_shop.dto.mapper.CoffeeVarietyMapper;
 import com.ilyabogatskiy.coffee_shop.models.CoffeeVariety;
 import com.ilyabogatskiy.coffee_shop.service.CoffeeVarietyService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
-@Api(tags = "Coffee Variety Rest Controller")
-@RequestMapping("/variety")
+@Api(tags = "coffee-variety-rest-controller")
+@RequestMapping("/api/v1/variety")
 @RequiredArgsConstructor
 public class CoffeeVarietyRestController {
 
@@ -20,94 +19,50 @@ public class CoffeeVarietyRestController {
     private final CoffeeVarietyMapper coffeeVarietyMapper;
 
     @GetMapping("/all")
-    @ApiOperation(value = "getAllCoffeeVarieties", notes = "Получение списка сортов кофе")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Список сортов кофе успешно получен"),
-            @ApiResponse(code = 201, message = "Запрос принят и данные получены"),
-            @ApiResponse(code = 404, message = "Данный контролер не найден"),
-            @ApiResponse(code = 403, message = "Операция запрещена"),
-            @ApiResponse(code = 401, message = "Нет доступа к данной операции")
-    })
+    @ApiOperation(value = "Получение списка сортов кофе")
     public List<CoffeeVarietyDto> getAllCoffeeVarieties() {
-        return coffeeVarietyMapper.toDto(coffeeVarietyService.findAll());
+        List<CoffeeVariety> listCoffeeVariety = coffeeVarietyService.findAll();
+        return coffeeVarietyMapper.toDto(listCoffeeVariety);
     }
 
-    @GetMapping("/all_available")
-    @ApiOperation(value = "getAllAvailableCoffeeVarieties", notes = "Получение списка сортов кофе с флагом available")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Список сортов кофе с флагом available получен"),
-            @ApiResponse(code = 201, message = "Запрос принят и данные получены"),
-            @ApiResponse(code = 404, message = "Данный контролер не найден"),
-            @ApiResponse(code = 403, message = "Операция запрещена"),
-            @ApiResponse(code = 401, message = "Нет доступа к данной операции")
-    })
+    @GetMapping("/available")
+    @ApiOperation(value = "Получение списка доступных сортов кофе")
     public List<CoffeeVarietyDto> getAllAvailableCoffeeVarieties() {
-        return coffeeVarietyMapper.toDto(coffeeVarietyService.findAllAvailable());
+        List<CoffeeVariety> listCoffeeVarietyIsAvailable = coffeeVarietyService.findAllAvailable();
+        return coffeeVarietyMapper.toDto(listCoffeeVarietyIsAvailable);
     }
 
-    @GetMapping("/find/{id}")
-    @ApiOperation(value = "getCoffeeVarietyById", notes = "Получение сорта кофе по id")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Сорт кофе успешно получен"),
-            @ApiResponse(code = 201, message = "Запрос принят и данные получены"),
-            @ApiResponse(code = 404, message = "Данный контролер не найден"),
-            @ApiResponse(code = 403, message = "Операция запрещена"),
-            @ApiResponse(code = 401, message = "Нет доступа к данной операции")
-    })
-    public CoffeeVariety getCoffeeVarietyById(@ApiParam(
-            name = "id",
-            type = "Long",
-            value = "Переданный в URL id, по которому происходит поиск сорта кофе",
-            example = "1",
-            required = true
-    ) @PathVariable Long id) {
-        return coffeeVarietyService.findById(id);
+    @GetMapping("/{id}")
+    @ApiOperation(value = "Получение сорта кофе по id")
+    public CoffeeVarietyDto getCoffeeVarietyById(
+            @ApiParam(value = "coffee variety id", required = true) @RequestParam Long id
+    ) {
+        CoffeeVariety coffeeVariety = coffeeVarietyService.findById(id);
+        return coffeeVarietyMapper.toDto(coffeeVariety);
     }
 
-    @PostMapping("/add")
-    @ApiOperation(value = "addCoffeeVariety", notes = "Добавление сорта кофе")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Сорт кофе успешно добавлен"),
-            @ApiResponse(code = 201, message = "Запрос принят и данные добавлены"),
-            @ApiResponse(code = 404, message = "Данный контролер не найден"),
-            @ApiResponse(code = 403, message = "Операция запрещена"),
-            @ApiResponse(code = 401, message = "Нет доступа к данной операции")
-    })
-    public CoffeeVarietyDto addCoffeeVariety(@RequestBody CoffeeVarietyDto coffeeVarietyDto) {
+    @PostMapping()
+    @ApiOperation(value = "Добавление сорта кофе")
+    public CoffeeVarietyDto addCoffeeVariety(
+            @ApiParam(value = "coffee variety", required = true) @RequestBody CoffeeVarietyDto coffeeVarietyDto
+    ) {
         CoffeeVariety coffeeVariety = coffeeVarietyService.add(coffeeVarietyMapper.toModel(coffeeVarietyDto));
         return coffeeVarietyMapper.toDto(coffeeVariety);
     }
 
-    @PutMapping("/update")
-    @ApiOperation(value = "updateCoffeeVarieties", notes = "Обновление сорта кофе")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Сорт кофе успешно обновлен"),
-            @ApiResponse(code = 201, message = "Запрос принят и данные обновлены"),
-            @ApiResponse(code = 404, message = "Данный контролер не найден"),
-            @ApiResponse(code = 403, message = "Операция запрещена"),
-            @ApiResponse(code = 401, message = "Нет доступа к данной операции")
-    })
-    public CoffeeVarietyDto updateCoffeeVarieties(@RequestBody CoffeeVarietyDto coffeeVarietyDto) {
+    @PutMapping()
+    @ApiOperation(value = "Обновление сорта кофе")
+    public CoffeeVarietyDto updateCoffeeVarieties(
+            @ApiParam(value = "coffee variety", required = true) @RequestBody CoffeeVarietyDto coffeeVarietyDto) {
         CoffeeVariety coffeeVariety = coffeeVarietyService.edit(coffeeVarietyMapper.toModel(coffeeVarietyDto));
         return coffeeVarietyMapper.toDto(coffeeVariety);
     }
 
-    @DeleteMapping("/delete/{id}")
-    @ApiOperation(value = "deleteCoffeeVarietyById", notes = "Удаление сорта кофе по id")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Сорт кофе успешно удален"),
-            @ApiResponse(code = 201, message = "Запрос принят и данные удалены"),
-            @ApiResponse(code = 404, message = "Данный контролер не найден"),
-            @ApiResponse(code = 403, message = "Операция запрещена"),
-            @ApiResponse(code = 401, message = "Нет доступа к данной операции")
-    })
-    public void deleteCoffeeVarietyById(@ApiParam(
-            name = "id",
-            type = "Long",
-            value = "Переданный в URL id, по которому происходит удаление сорта кофе",
-            example = "1",
-            required = true
-    ) @PathVariable Long id) {
+    @DeleteMapping("/{id}")
+    @ApiOperation(value = "Удаление сорта кофе по id")
+    public void deleteCoffeeVarietyById(
+            @ApiParam(value = "coffee variety id", required = true) @RequestParam Long id
+    ) {
         coffeeVarietyService.delete(id);
     }
 }

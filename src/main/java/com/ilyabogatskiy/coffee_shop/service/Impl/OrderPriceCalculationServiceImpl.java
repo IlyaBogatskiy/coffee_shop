@@ -1,6 +1,5 @@
 package com.ilyabogatskiy.coffee_shop.service.Impl;
 
-import com.ilyabogatskiy.coffee_shop.exception.OrderItemNotFoundException;
 import com.ilyabogatskiy.coffee_shop.models.Order;
 import com.ilyabogatskiy.coffee_shop.models.OrderItem;
 import com.ilyabogatskiy.coffee_shop.service.OrderPriceCalculationService;
@@ -19,43 +18,33 @@ public class OrderPriceCalculationServiceImpl implements OrderPriceCalculationSe
     private Integer freeCup;
 
     @Value("${cafe.freeDelivery.x}")
-    private BigDecimal freeDeliveryPrice;
+    private String freeDeliveryPrice;
 
     @Value("${cafe.defaultDelivery.m}")
-    private BigDecimal defaultDeliveryPrice;
+    private String defaultDeliveryPrice;
 
-    //Общая стоимость заказа
     @Override
-    public Order orderPriceCalculation(Order order) {
-        order.setOrderPrice(
-                order.getOrderItems()
-                        .stream()
-                        .map(this::orderItemPriceCalculation)
-                        .map(OrderItem::getOrderItemPrice)
-                        .reduce(BigDecimal::add)
-                        .orElseThrow(() -> new OrderItemNotFoundException("Позиции заказа " + order.getOrderItems() + " не найдены"))
-        );
-        var deliveryPrice = deliveryPriceWithDiscountCalculation(order);
-        order.setOrderPrice(order.getOrderPrice().add(deliveryPrice));
-        return order;
+    public BigDecimal orderPriceCalculation(Order order) {
+        BigDecimal orderPrice = BigDecimal.ZERO;
+        for (OrderItem orderItem : order.getOrderItems()) {
+            orderPrice = orderPrice.add(orderItem.getOrderItemPrice());
+        }
+        return orderPrice.add(deliveryPrice(orderPrice));
     }
 
-    //Стоимость ПОЗИЦИИ ЗАКАЗА
     @Override
-    public OrderItem orderItemPriceCalculation(OrderItem orderItem) {
+    public BigDecimal orderItemPriceCalculation(OrderItem orderItem) {
         var cupCount = orderItem.getCups();
         var orderPrice = orderItem.getCoffeeVariety().getPrice();
-        var itemPrice = orderPrice.multiply(BigDecimal.valueOf(cupCount - cupCount / freeCup));
-        orderItem.setOrderItemPrice(itemPrice);
-        return orderItem;
+        return orderPrice.multiply(BigDecimal.valueOf(cupCount - cupCount / freeCup));
     }
 
-    //Стоимость доставки с учетом скидки
-    private BigDecimal deliveryPriceWithDiscountCalculation(Order order) {
-        var orderPrice = order.getOrderPrice();
-        if (orderPrice.compareTo(freeDeliveryPrice) < 0 && order.getOrderItems().size() > 0) {
+    /** Стоимость доставки */
+    private BigDecimal deliveryPrice(BigDecimal orderPrice) {
+
+        if (orderPrice.compareTo(new BigDecimal(freeDeliveryPrice)) < 0) {
             log.info("Стоимость доставки ({})", defaultDeliveryPrice);
-            return defaultDeliveryPrice;
+            return new BigDecimal(defaultDeliveryPrice);
         }
         return BigDecimal.ZERO;
     }
