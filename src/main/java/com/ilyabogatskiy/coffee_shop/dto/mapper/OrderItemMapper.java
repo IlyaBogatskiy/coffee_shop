@@ -12,7 +12,7 @@ public interface OrderItemMapper {
 
     @Mappings({
             @Mapping(target = "coffeeVarietyId", source = "coffeeVariety.id"),
-            @Mapping(source = "orderItemPrice", target = "orderItemPrice", numberFormat = "#.##E0")
+            @Mapping(source = "orderItemPrice", target = "orderItemPrice", numberFormat = "#.00 TGR")
     })
     OrderItemDto toDto(OrderItem orderItem);
 

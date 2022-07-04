@@ -13,7 +13,7 @@ public interface OrderMapper {
 
     @Mappings({
             @Mapping(target = "orderItemDtos", source = "orderItems"),
-            @Mapping(source = "orderPrice", target = "orderPrice", numberFormat = "#.##E0")
+            @Mapping(source = "orderPrice", target = "orderPrice", numberFormat = "#.00 TGR")
     })
     OrderDto toDto(Order order);
 

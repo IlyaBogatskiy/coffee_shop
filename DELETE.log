@@ -26,3 +26,12 @@
 04.07.2022 02:26:52.323 [http-nio-8082-exec-3] INFO  c.i.c.s.I.OrderServiceImpl - Позиция заказа (Капучино) (10)шт. на сумму (24) добавлена
 04.07.2022 02:26:52.496 [http-nio-8082-exec-3] INFO  c.i.c.s.I.OrderServiceImpl - Заказ добавлен на сумму (24) добавлен
 04.07.2022 02:36:49.521 [http-nio-8082-exec-10] INFO  c.i.c.s.I.OrderServiceImpl - Заказ (13) удалён
+04.07.2022 13:34:52.024 [http-nio-8082-exec-10] INFO  c.i.c.s.I.OrderServiceImpl - Позиция заказа (Капучино) (6)шт. на сумму (15) добавлена
+04.07.2022 13:34:52.151 [http-nio-8082-exec-10] INFO  c.i.c.s.I.OrderServiceImpl - Заказ добавлен на сумму (15) добавлен
+04.07.2022 15:48:56.095 [http-nio-8082-exec-5] INFO  c.i.c.s.I.OrderServiceImpl - Позиция заказа (Американо) (10)шт. на сумму (16) добавлена
+04.07.2022 15:48:56.101 [http-nio-8082-exec-5] INFO  c.i.c.s.I.OrderServiceImpl - Позиция заказа (Капучино) (10)шт. на сумму (24) добавлена
+04.07.2022 15:48:56.103 [http-nio-8082-exec-5] INFO  c.i.c.s.I.OrderServiceImpl - Заказ добавлен на сумму (40) добавлен
+04.07.2022 15:53:35.340 [http-nio-8082-exec-7] INFO  c.i.c.s.I.OrderServiceImpl - Позиция заказа (Раф) (7)шт. на сумму (30) добавлена
+04.07.2022 15:53:35.373 [http-nio-8082-exec-7] INFO  c.i.c.s.I.OrderServiceImpl - Заказ добавлен на сумму (30) добавлен
+04.07.2022 15:56:23.854 [http-nio-8082-exec-7] INFO  c.i.c.s.I.OrderServiceImpl - Позиция заказа (Раф) (4)шт. на сумму (20) добавлена
+04.07.2022 15:56:23.884 [http-nio-8082-exec-7] INFO  c.i.c.s.I.OrderServiceImpl - Заказ добавлен на сумму (20) добавлен
