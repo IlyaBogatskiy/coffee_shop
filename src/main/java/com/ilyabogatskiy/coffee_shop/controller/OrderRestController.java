@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
+@CrossOrigin()
 @RestController
 @Api(tags = "order-rest-controller")
 @RequestMapping("/api/v1/order")
@@ -19,7 +20,7 @@ public class OrderRestController {
     private final OrderService orderService;
     private final OrderMapper orderMapper;
 
-    @GetMapping("/all")
+    @GetMapping("/")
     @ApiOperation(value = "Получение списка заказов")
     public List<OrderDto> getAllOrders() {
         List<Order> orders = orderService.findAll();

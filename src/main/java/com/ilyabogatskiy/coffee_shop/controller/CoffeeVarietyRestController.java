@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
+@CrossOrigin()
 @RestController
 @Api(tags = "coffee-variety-rest-controller")
 @RequestMapping("/api/v1/variety")
