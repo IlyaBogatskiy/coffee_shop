@@ -35,7 +35,7 @@ public class OrderRestController {
         return orderMapper.toDto(order);
     }
 
-    @PostMapping()
+    @PostMapping("/create")
     @ApiOperation(value = "Создать новый заказ")
     public OrderDto createOrder(
             @ApiParam(value = "Создание нового заказа") @RequestBody OrderDto orderDto

@@ -41,7 +41,7 @@ public class CoffeeVarietyRestController {
         return coffeeVarietyMapper.toDto(coffeeVariety);
     }
 
-    @PostMapping()
+    @PostMapping("/create")
     @ApiOperation(value = "Добавление сорта кофе")
     public CoffeeVarietyDto addCoffeeVariety(
             @ApiParam(value = "coffee variety", required = true) @RequestBody CoffeeVarietyDto coffeeVarietyDto
