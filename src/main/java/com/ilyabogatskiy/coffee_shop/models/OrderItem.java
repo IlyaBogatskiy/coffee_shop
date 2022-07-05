@@ -3,6 +3,7 @@ package com.ilyabogatskiy.coffee_shop.models;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @Data
@@ -15,11 +16,13 @@ public class OrderItem {
     @Column(name = "id")
     private Long id;
 
+    @NotNull
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "coffee_variety_id")
+    @JoinColumn(name = "coffee_variety_id", nullable = false)
     private CoffeeVariety coffeeVariety;
 
-    @Column(name = "amount")
+    @NotNull
+    @Column(name = "amount", nullable = false)
     private Integer cups;
 
     @Column(name = "order_item_price")

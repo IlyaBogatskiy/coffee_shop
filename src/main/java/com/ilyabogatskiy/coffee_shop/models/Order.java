@@ -2,6 +2,7 @@ package com.ilyabogatskiy.coffee_shop.models;
 
 import lombok.Data;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,10 +20,12 @@ public class Order {
     @Column(name = "date")
     private LocalDateTime orderDate;
 
-    @Column(name = "customer")
+    @NotNull
+    @Column(name = "customer", nullable = false)
     private String customerName;
 
-    @Column(name = "address")
+    @NotNull
+    @Column(name = "address", nullable = false)
     private String deliveryAddress;
 
     @Column(name = "total_price")
