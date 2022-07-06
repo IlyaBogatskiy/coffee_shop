@@ -17,3 +17,6 @@
 06.07.2022 17:51:37.019 [http-nio-8083-exec-1] INFO  c.i.c.s.I.OrderServiceImpl - Позиция заказа (Капучино) (3)шт. на сумму (9) добавлена
 06.07.2022 17:51:37.023 [http-nio-8083-exec-1] INFO  c.i.c.s.I.OrderPriceCalculationServiceImpl - Стоимость доставки (2)
 06.07.2022 17:51:37.023 [http-nio-8083-exec-1] INFO  c.i.c.s.I.OrderServiceImpl - Заказ добавлен на сумму (11) добавлен
+06.07.2022 17:58:20.588 [http-nio-8083-exec-2] INFO  c.i.c.s.I.OrderServiceImpl - Позиция заказа (Капучино) (3)шт. на сумму (9) добавлена
+06.07.2022 17:58:20.615 [http-nio-8083-exec-2] INFO  c.i.c.s.I.OrderPriceCalculationServiceImpl - Стоимость доставки (2)
+06.07.2022 17:58:20.615 [http-nio-8083-exec-2] INFO  c.i.c.s.I.OrderServiceImpl - Заказ добавлен на сумму (11) добавлен
