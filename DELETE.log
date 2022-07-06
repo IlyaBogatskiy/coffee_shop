@@ -4,3 +4,16 @@
 05.07.2022 10:30:53.936 [http-nio-8082-exec-7] INFO  c.i.c.s.I.OrderServiceImpl - Позиция заказа (Капучино) (2)шт. на сумму (6) добавлена
 05.07.2022 10:30:53.967 [http-nio-8082-exec-7] INFO  c.i.c.s.I.OrderPriceCalculationServiceImpl - Стоимость доставки (2)
 05.07.2022 10:30:53.968 [http-nio-8082-exec-7] INFO  c.i.c.s.I.OrderServiceImpl - Заказ добавлен на сумму (8) добавлен
+06.07.2022 17:08:27.240 [http-nio-8083-exec-10] INFO  c.i.c.s.I.OrderServiceImpl - Позиция заказа (Капучино) (8)шт. на сумму (21) добавлена
+06.07.2022 17:08:27.322 [http-nio-8083-exec-10] INFO  c.i.c.s.I.OrderServiceImpl - Заказ добавлен на сумму (21) добавлен
+06.07.2022 17:43:57.698 [http-nio-8083-exec-1] INFO  c.i.c.s.I.OrderServiceImpl - Позиция заказа (Капучино) (3)шт. на сумму (9) добавлена
+06.07.2022 17:43:58.199 [http-nio-8083-exec-1] INFO  c.i.c.s.I.OrderPriceCalculationServiceImpl - Стоимость доставки (2)
+06.07.2022 17:43:58.201 [http-nio-8083-exec-1] INFO  c.i.c.s.I.OrderServiceImpl - Заказ добавлен на сумму (11) добавлен
+06.07.2022 17:45:25.251 [http-nio-8083-exec-1] INFO  c.i.c.s.I.OrderServiceImpl - Позиция заказа (Капучино) (10)шт. на сумму (24) добавлена
+06.07.2022 17:45:25.303 [http-nio-8083-exec-1] INFO  c.i.c.s.I.OrderServiceImpl - Заказ добавлен на сумму (24) добавлен
+06.07.2022 17:50:17.699 [http-nio-8083-exec-7] INFO  c.i.c.s.I.OrderServiceImpl - Позиция заказа (Американо) (3)шт. на сумму (6) добавлена
+06.07.2022 17:50:17.704 [http-nio-8083-exec-7] INFO  c.i.c.s.I.OrderPriceCalculationServiceImpl - Стоимость доставки (2)
+06.07.2022 17:50:17.704 [http-nio-8083-exec-7] INFO  c.i.c.s.I.OrderServiceImpl - Заказ добавлен на сумму (8) добавлен
+06.07.2022 17:51:37.019 [http-nio-8083-exec-1] INFO  c.i.c.s.I.OrderServiceImpl - Позиция заказа (Капучино) (3)шт. на сумму (9) добавлена
+06.07.2022 17:51:37.023 [http-nio-8083-exec-1] INFO  c.i.c.s.I.OrderPriceCalculationServiceImpl - Стоимость доставки (2)
+06.07.2022 17:51:37.023 [http-nio-8083-exec-1] INFO  c.i.c.s.I.OrderServiceImpl - Заказ добавлен на сумму (11) добавлен

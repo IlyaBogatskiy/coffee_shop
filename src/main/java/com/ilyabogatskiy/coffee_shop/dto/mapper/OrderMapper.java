@@ -12,14 +12,14 @@ import java.util.List;
 public interface OrderMapper {
 
     @Mappings({
-            @Mapping(target = "orderItemDtos", source = "orderItems"),
+            @Mapping(target = "orderItems", source = "orderItems"),
             @Mapping(source = "orderPrice", target = "orderPrice", numberFormat = "#.00 TGR")
     })
     OrderDto toDto(Order order);
 
     @Mappings({
             @Mapping(target = "id", ignore = true),
-            @Mapping(target = "orderItems", source = "orderItemDtos"),
+            @Mapping(target = "orderItems", source = "orderItems"),
             @Mapping(target = "orderPrice", ignore = true)
     })
     Order toModel(OrderDto orderDto);

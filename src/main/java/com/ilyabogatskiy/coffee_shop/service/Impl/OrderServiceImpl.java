@@ -1,6 +1,5 @@
 package com.ilyabogatskiy.coffee_shop.service.Impl;
 
-import com.ilyabogatskiy.coffee_shop.exception.CoffeeVarietyNotFoundException;
 import com.ilyabogatskiy.coffee_shop.exception.OrderNotFoundException;
 import com.ilyabogatskiy.coffee_shop.models.CoffeeVariety;
 import com.ilyabogatskiy.coffee_shop.models.Order;
@@ -67,7 +66,6 @@ public class OrderServiceImpl implements OrderService {
     }
 
     private OrderItem addItem(OrderItem orderItem) {
-
         CoffeeVariety coffeeVariety = coffeeVarietyService.findById(orderItem.getCoffeeVariety().getId());
         orderItem.setCoffeeVariety(coffeeVariety);
         BigDecimal itemTotalPrice = orderPriceCalculationService.orderItemPriceCalculation(orderItem);

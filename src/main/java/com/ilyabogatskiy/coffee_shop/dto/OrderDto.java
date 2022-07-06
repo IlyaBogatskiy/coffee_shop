@@ -17,5 +17,5 @@ public class OrderDto {
 
     private String orderPrice;
 
-    private List<OrderItemDto> orderItemDtos;
+    private List<OrderItemDto> orderItems;
 }
