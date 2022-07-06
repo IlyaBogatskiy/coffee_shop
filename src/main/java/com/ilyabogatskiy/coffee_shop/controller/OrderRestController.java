@@ -20,7 +20,7 @@ public class OrderRestController {
     private final OrderService orderService;
     private final OrderMapper orderMapper;
 
-    @GetMapping("/")
+    @GetMapping()
     @ApiOperation(value = "Получение списка заказов")
     public List<OrderDto> getAllOrders() {
         List<Order> orders = orderService.findAll();
