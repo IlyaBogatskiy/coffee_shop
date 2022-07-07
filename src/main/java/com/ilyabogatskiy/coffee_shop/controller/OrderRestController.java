@@ -48,7 +48,7 @@ public class OrderRestController {
     @DeleteMapping("/{id}")
     @ApiOperation(value = "Удаление заказа по id")
     public void deleteOrderById(
-            @ApiParam(value = "order_id", required = true) @RequestParam Long id
+            @ApiParam(value = "order_id", required = true) @PathVariable Long id
     ) {
         orderService.delete(id);
     }

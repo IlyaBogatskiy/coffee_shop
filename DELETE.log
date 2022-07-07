@@ -24,3 +24,8 @@
 06.07.2022 19:59:20.441 [http-nio-8083-exec-8] INFO  c.i.c.s.I.OrderServiceImpl - Заказ добавлен на сумму (35) добавлен
 07.07.2022 00:41:57.637 [http-nio-8083-exec-8] WARN  c.i.c.s.I.OrderServiceImpl - Заказа с указанным идентификатором (19) нет в базе данных
 07.07.2022 00:42:48.257 [http-nio-8083-exec-9] INFO  c.i.c.s.I.OrderServiceImpl - Заказ (9) удалён
+07.07.2022 11:44:21.353 [http-nio-8083-exec-8] INFO  c.i.c.s.I.OrderServiceImpl - Заказ (26) удалён
+07.07.2022 12:03:09.604 [http-nio-8083-exec-3] INFO  c.i.c.s.I.OrderServiceImpl - Заказ (25) удалён
+07.07.2022 12:11:28.887 [http-nio-8083-exec-9] WARN  c.i.c.s.I.OrderServiceImpl - Заказа с указанным идентификатором (25) нет в базе данных
+07.07.2022 12:54:09.357 [http-nio-8083-exec-7] INFO  c.i.c.s.I.OrderServiceImpl - Позиция заказа (Раф) (10)шт. на сумму (40) добавлена
+07.07.2022 12:54:09.431 [http-nio-8083-exec-7] INFO  c.i.c.s.I.OrderServiceImpl - Заказ добавлен на сумму (40) добавлен
