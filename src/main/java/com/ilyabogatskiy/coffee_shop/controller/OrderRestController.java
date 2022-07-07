@@ -30,7 +30,7 @@ public class OrderRestController {
     @GetMapping("/{id}")
     @ApiOperation(value = "Получение заказа по id")
     public OrderDto getOrderById(
-            @ApiParam(value = "order_id", required = true) @RequestParam Long id
+            @ApiParam(value = "order_id", required = true) @PathVariable Long id
     ) {
         Order order = orderService.findById(id);
         return orderMapper.toDto(order);
