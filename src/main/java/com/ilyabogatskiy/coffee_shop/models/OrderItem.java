@@ -17,7 +17,7 @@ public class OrderItem {
     private Long id;
 
     @NotNull
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne()
     @JoinColumn(name = "coffee_variety_id", nullable = false)
     private CoffeeVariety coffeeVariety;
 
