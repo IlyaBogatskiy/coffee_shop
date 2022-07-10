@@ -7,6 +7,8 @@ import com.ilyabogatskiy.coffee_shop.models.Order;
 import com.ilyabogatskiy.coffee_shop.service.OrderService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -22,9 +24,9 @@ public class OrderRestController {
 
     @GetMapping()
     @ApiOperation(value = "Получение списка заказов")
-    public List<OrderDto> getAllOrders() {
-        List<Order> orders = orderService.findAll();
-        return orderMapper.toDto(orders);
+    public Page<OrderDto> getAllOrders(Pageable pageable) {
+        return orderService.orderPage(pageable)
+                .map(orderMapper::toDto);
     }
 
     @GetMapping("/{id}")

@@ -11,10 +11,11 @@ import com.ilyabogatskiy.coffee_shop.service.OrderPriceCalculationService;
 import com.ilyabogatskiy.coffee_shop.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
-import java.util.List;
 
 @Slf4j
 @Service
@@ -28,8 +29,8 @@ public class OrderServiceImpl implements OrderService {
     private final OrderPriceCalculationService orderPriceCalculationService;
 
     @Override
-    public List<Order> findAll() {
-        return orderRepository.findAll();
+    public Page<Order> orderPage(Pageable pageable) {
+        return orderRepository.findAll(pageable);
     }
 
     @Override

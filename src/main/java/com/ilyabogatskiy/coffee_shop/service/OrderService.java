@@ -1,11 +1,14 @@
 package com.ilyabogatskiy.coffee_shop.service;
 
 import com.ilyabogatskiy.coffee_shop.models.Order;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import java.util.List;
 
 public interface OrderService {
 
-    List<Order> findAll();
+    Page<Order> orderPage(Pageable pageable);
 
     Order findById(Long id);
 

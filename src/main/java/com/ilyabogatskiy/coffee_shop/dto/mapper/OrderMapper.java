@@ -6,8 +6,6 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
-import java.util.List;
-
 @Mapper(componentModel = "spring", uses = {OrderItemMapper.class})
 public interface OrderMapper {
 
@@ -23,6 +21,4 @@ public interface OrderMapper {
             @Mapping(target = "orderPrice", ignore = true)
     })
     Order toModel(OrderDto orderDto);
-
-    List<OrderDto> toDto(List<Order> all);
 }

@@ -23,7 +23,6 @@ import com.ilyabogatskiy.coffee_shop.service.OrderPriceCalculationService;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Disabled;
@@ -32,6 +31,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -55,20 +57,20 @@ class OrderServiceImplTest {
     private OrderServiceImpl orderServiceImpl;
 
     @Test
-    void testFindAll() {
-        ArrayList<Order> orderList = new ArrayList<>();
-        when(this.orderRepository.findAll()).thenReturn(orderList);
-        List<Order> actualFindAllResult = this.orderServiceImpl.findAll();
-        assertSame(orderList, actualFindAllResult);
-        assertTrue(actualFindAllResult.isEmpty());
-        verify(this.orderRepository).findAll();
+    void testOrderPage() {
+        PageImpl<Order> pageImpl = new PageImpl<>(new ArrayList<>());
+        when(orderRepository.findAll((Pageable) any())).thenReturn(pageImpl);
+        Page<Order> actualOrderPageResult = orderServiceImpl.orderPage(null);
+        assertSame(pageImpl, actualOrderPageResult);
+        assertTrue(actualOrderPageResult.toList().isEmpty());
+        verify(orderRepository).findAll((Pageable) any());
     }
 
     @Test
-    void testFindAll2() {
-        when(this.orderRepository.findAll()).thenThrow(new OrderNotFoundException("An error occurred"));
-        assertThrows(OrderNotFoundException.class, () -> this.orderServiceImpl.findAll());
-        verify(this.orderRepository).findAll();
+    void testOrderPage2() {
+        when(orderRepository.findAll((Pageable) any())).thenThrow(new OrderNotFoundException("An error occurred"));
+        assertThrows(OrderNotFoundException.class, () -> orderServiceImpl.orderPage(null));
+        verify(orderRepository).findAll((Pageable) any());
     }
 
     @Test
@@ -81,25 +83,25 @@ class OrderServiceImplTest {
         order.setOrderItems(new ArrayList<>());
         order.setOrderPrice(BigDecimal.valueOf(42L));
         Optional<Order> ofResult = Optional.of(order);
-        when(this.orderRepository.findById((Long) any())).thenReturn(ofResult);
-        Order actualFindByIdResult = this.orderServiceImpl.findById(123L);
+        when(orderRepository.findById((Long) any())).thenReturn(ofResult);
+        Order actualFindByIdResult = orderServiceImpl.findById(123L);
         assertSame(order, actualFindByIdResult);
         assertEquals("42", actualFindByIdResult.getOrderPrice().toString());
-        verify(this.orderRepository).findById((Long) any());
+        verify(orderRepository).findById((Long) any());
     }
 
     @Test
     void testFindById2() {
-        when(this.orderRepository.findById((Long) any())).thenReturn(Optional.empty());
-        assertThrows(OrderNotFoundException.class, () -> this.orderServiceImpl.findById(123L));
-        verify(this.orderRepository).findById((Long) any());
+        when(orderRepository.findById((Long) any())).thenReturn(Optional.empty());
+        assertThrows(OrderNotFoundException.class, () -> orderServiceImpl.findById(123L));
+        verify(orderRepository).findById((Long) any());
     }
 
     @Test
     void testFindById3() {
-        when(this.orderRepository.findById((Long) any())).thenThrow(new OrderNotFoundException("An error occurred"));
-        assertThrows(OrderNotFoundException.class, () -> this.orderServiceImpl.findById(123L));
-        verify(this.orderRepository).findById((Long) any());
+        when(orderRepository.findById((Long) any())).thenThrow(new OrderNotFoundException("An error occurred"));
+        assertThrows(OrderNotFoundException.class, () -> orderServiceImpl.findById(123L));
+        verify(orderRepository).findById((Long) any());
     }
 
     @Test
@@ -111,8 +113,8 @@ class OrderServiceImplTest {
         order.setOrderDate(LocalDateTime.of(1, 1, 1, 1, 1));
         order.setOrderItems(new ArrayList<>());
         order.setOrderPrice(BigDecimal.valueOf(42L));
-        when(this.orderRepository.saveAndFlush((Order) any())).thenReturn(order);
-        when(this.orderPriceCalculationService.orderPriceCalculation((Order) any())).thenReturn(BigDecimal.valueOf(42L));
+        when(orderRepository.saveAndFlush((Order) any())).thenReturn(order);
+        when(orderPriceCalculationService.orderPriceCalculation((Order) any())).thenReturn(BigDecimal.valueOf(42L));
 
         Order order1 = new Order();
         order1.setCustomerName("Customer Name");
@@ -122,11 +124,11 @@ class OrderServiceImplTest {
         order1.setOrderItems(new ArrayList<>());
         BigDecimal valueOfResult = BigDecimal.valueOf(42L);
         order1.setOrderPrice(valueOfResult);
-        Order actualAddResult = this.orderServiceImpl.add(order1);
+        Order actualAddResult = orderServiceImpl.add(order1);
         assertSame(order, actualAddResult);
         assertEquals("42", actualAddResult.getOrderPrice().toString());
-        verify(this.orderRepository).saveAndFlush((Order) any());
-        verify(this.orderPriceCalculationService).orderPriceCalculation((Order) any());
+        verify(orderRepository).saveAndFlush((Order) any());
+        verify(orderPriceCalculationService).orderPriceCalculation((Order) any());
         assertEquals(valueOfResult, order1.getOrderPrice());
     }
 
@@ -139,8 +141,8 @@ class OrderServiceImplTest {
         order.setOrderDate(LocalDateTime.of(1, 1, 1, 1, 1));
         order.setOrderItems(new ArrayList<>());
         order.setOrderPrice(BigDecimal.valueOf(42L));
-        when(this.orderRepository.saveAndFlush((Order) any())).thenReturn(order);
-        when(this.orderPriceCalculationService.orderPriceCalculation((Order) any()))
+        when(orderRepository.saveAndFlush((Order) any())).thenReturn(order);
+        when(orderPriceCalculationService.orderPriceCalculation((Order) any()))
                 .thenThrow(new OrderNotFoundException("An error occurred"));
 
         Order order1 = new Order();
@@ -150,8 +152,8 @@ class OrderServiceImplTest {
         order1.setOrderDate(LocalDateTime.of(1, 1, 1, 1, 1));
         order1.setOrderItems(new ArrayList<>());
         order1.setOrderPrice(BigDecimal.valueOf(42L));
-        assertThrows(OrderNotFoundException.class, () -> this.orderServiceImpl.add(order1));
-        verify(this.orderPriceCalculationService).orderPriceCalculation((Order) any());
+        assertThrows(OrderNotFoundException.class, () -> orderServiceImpl.add(order1));
+        verify(orderPriceCalculationService).orderPriceCalculation((Order) any());
     }
 
     @Test
@@ -163,10 +165,7 @@ class OrderServiceImplTest {
         order.setOrderDate(LocalDateTime.of(1, 1, 1, 1, 1));
         order.setOrderItems(new ArrayList<>());
         order.setOrderPrice(BigDecimal.valueOf(42L));
-        when(this.orderRepository.saveAndFlush((Order) any())).thenReturn(order);
-        when(this.orderPriceCalculationService.orderItemPriceCalculation((OrderItem) any()))
-                .thenReturn(BigDecimal.valueOf(42L));
-        when(this.orderPriceCalculationService.orderPriceCalculation((Order) any())).thenReturn(BigDecimal.valueOf(42L));
+        when(orderRepository.saveAndFlush((Order) any())).thenReturn(order);
 
         CoffeeVariety coffeeVariety = new CoffeeVariety();
         coffeeVariety.setAvailable(true);
@@ -179,14 +178,16 @@ class OrderServiceImplTest {
         orderItem.setCups(1);
         orderItem.setId(123L);
         orderItem.setOrderItemPrice(BigDecimal.valueOf(42L));
-        when(this.orderItemRepository.saveAndFlush((OrderItem) any())).thenReturn(orderItem);
+        when(orderItemRepository.saveAndFlush((OrderItem) any())).thenReturn(orderItem);
 
         CoffeeVariety coffeeVariety1 = new CoffeeVariety();
         coffeeVariety1.setAvailable(true);
         coffeeVariety1.setId(123L);
         coffeeVariety1.setName("Name");
         coffeeVariety1.setPrice(BigDecimal.valueOf(42L));
-        when(this.coffeeVarietyService.findById((Long) any())).thenReturn(coffeeVariety1);
+        when(coffeeVarietyService.findById((Long) any())).thenReturn(coffeeVariety1);
+        when(orderPriceCalculationService.orderItemPriceCalculation((OrderItem) any())).thenReturn(BigDecimal.valueOf(42L));
+        when(orderPriceCalculationService.orderPriceCalculation((Order) any())).thenReturn(BigDecimal.valueOf(42L));
 
         CoffeeVariety coffeeVariety2 = new CoffeeVariety();
         coffeeVariety2.setAvailable(true);
@@ -211,14 +212,14 @@ class OrderServiceImplTest {
         order1.setOrderItems(orderItemList);
         BigDecimal valueOfResult = BigDecimal.valueOf(42L);
         order1.setOrderPrice(valueOfResult);
-        Order actualAddResult = this.orderServiceImpl.add(order1);
+        Order actualAddResult = orderServiceImpl.add(order1);
         assertSame(order, actualAddResult);
         assertEquals("42", actualAddResult.getOrderPrice().toString());
-        verify(this.orderRepository).saveAndFlush((Order) any());
-        verify(this.orderPriceCalculationService).orderItemPriceCalculation((OrderItem) any());
-        verify(this.orderPriceCalculationService).orderPriceCalculation((Order) any());
-        verify(this.orderItemRepository).saveAndFlush((OrderItem) any());
-        verify(this.coffeeVarietyService).findById((Long) any());
+        verify(orderRepository).saveAndFlush((Order) any());
+        verify(orderItemRepository).saveAndFlush((OrderItem) any());
+        verify(coffeeVarietyService).findById((Long) any());
+        verify(orderPriceCalculationService).orderItemPriceCalculation((OrderItem) any());
+        verify(orderPriceCalculationService).orderPriceCalculation((Order) any());
         assertEquals(valueOfResult, order1.getOrderPrice());
         OrderItem getResult = order1.getOrderItems().get(0);
         assertEquals(coffeeVariety, getResult.getCoffeeVariety());
@@ -234,34 +235,45 @@ class OrderServiceImplTest {
         order.setOrderDate(LocalDateTime.of(1, 1, 1, 1, 1));
         order.setOrderItems(new ArrayList<>());
         order.setOrderPrice(BigDecimal.valueOf(42L));
-        when(this.orderRepository.saveAndFlush((Order) any())).thenReturn(order);
-        when(this.orderPriceCalculationService.orderItemPriceCalculation((OrderItem) any()))
-                .thenReturn(BigDecimal.valueOf(42L));
-        when(this.orderPriceCalculationService.orderPriceCalculation((Order) any())).thenReturn(BigDecimal.valueOf(42L));
-        when(this.orderItemRepository.saveAndFlush((OrderItem) any()))
-                .thenThrow(new OrderNotFoundException("An error occurred"));
+        when(orderRepository.saveAndFlush((Order) any())).thenReturn(order);
 
         CoffeeVariety coffeeVariety = new CoffeeVariety();
         coffeeVariety.setAvailable(true);
         coffeeVariety.setId(123L);
         coffeeVariety.setName("Name");
         coffeeVariety.setPrice(BigDecimal.valueOf(42L));
-        when(this.coffeeVarietyService.findById((Long) any())).thenReturn(coffeeVariety);
+
+        OrderItem orderItem = new OrderItem();
+        orderItem.setCoffeeVariety(coffeeVariety);
+        orderItem.setCups(1);
+        orderItem.setId(123L);
+        orderItem.setOrderItemPrice(BigDecimal.valueOf(42L));
+        when(orderItemRepository.saveAndFlush((OrderItem) any())).thenReturn(orderItem);
 
         CoffeeVariety coffeeVariety1 = new CoffeeVariety();
         coffeeVariety1.setAvailable(true);
         coffeeVariety1.setId(123L);
-        coffeeVariety1.setName("Заказ добавлен на сумму ({}) добавлен");
+        coffeeVariety1.setName("Name");
         coffeeVariety1.setPrice(BigDecimal.valueOf(42L));
+        when(coffeeVarietyService.findById((Long) any())).thenReturn(coffeeVariety1);
+        when(orderPriceCalculationService.orderItemPriceCalculation((OrderItem) any()))
+                .thenThrow(new OrderNotFoundException("An error occurred"));
+        when(orderPriceCalculationService.orderPriceCalculation((Order) any())).thenReturn(BigDecimal.valueOf(42L));
 
-        OrderItem orderItem = new OrderItem();
-        orderItem.setCoffeeVariety(coffeeVariety1);
-        orderItem.setCups(1);
-        orderItem.setId(123L);
-        orderItem.setOrderItemPrice(BigDecimal.valueOf(42L));
+        CoffeeVariety coffeeVariety2 = new CoffeeVariety();
+        coffeeVariety2.setAvailable(true);
+        coffeeVariety2.setId(123L);
+        coffeeVariety2.setName("Заказ добавлен на сумму ({}) добавлен");
+        coffeeVariety2.setPrice(BigDecimal.valueOf(42L));
+
+        OrderItem orderItem1 = new OrderItem();
+        orderItem1.setCoffeeVariety(coffeeVariety2);
+        orderItem1.setCups(1);
+        orderItem1.setId(123L);
+        orderItem1.setOrderItemPrice(BigDecimal.valueOf(42L));
 
         ArrayList<OrderItem> orderItemList = new ArrayList<>();
-        orderItemList.add(orderItem);
+        orderItemList.add(orderItem1);
 
         Order order1 = new Order();
         order1.setCustomerName("Customer Name");
@@ -270,10 +282,9 @@ class OrderServiceImplTest {
         order1.setOrderDate(LocalDateTime.of(1, 1, 1, 1, 1));
         order1.setOrderItems(orderItemList);
         order1.setOrderPrice(BigDecimal.valueOf(42L));
-        assertThrows(OrderNotFoundException.class, () -> this.orderServiceImpl.add(order1));
-        verify(this.orderPriceCalculationService).orderItemPriceCalculation((OrderItem) any());
-        verify(this.orderItemRepository).saveAndFlush((OrderItem) any());
-        verify(this.coffeeVarietyService).findById((Long) any());
+        assertThrows(OrderNotFoundException.class, () -> orderServiceImpl.add(order1));
+        verify(coffeeVarietyService).findById((Long) any());
+        verify(orderPriceCalculationService).orderItemPriceCalculation((OrderItem) any());
     }
 
     @Test
@@ -286,11 +297,11 @@ class OrderServiceImplTest {
         order.setOrderItems(new ArrayList<>());
         order.setOrderPrice(BigDecimal.valueOf(42L));
         Optional<Order> ofResult = Optional.of(order);
-        doNothing().when(this.orderRepository).deleteById((Long) any());
-        when(this.orderRepository.findById((Long) any())).thenReturn(ofResult);
-        this.orderServiceImpl.delete(123L);
-        verify(this.orderRepository, atLeast(1)).findById((Long) any());
-        verify(this.orderRepository).deleteById((Long) any());
+        doNothing().when(orderRepository).deleteById((Long) any());
+        when(orderRepository.findById((Long) any())).thenReturn(ofResult);
+        orderServiceImpl.delete(123L);
+        verify(orderRepository, atLeast(1)).findById((Long) any());
+        verify(orderRepository).deleteById((Long) any());
     }
 
     @Test
@@ -303,19 +314,11 @@ class OrderServiceImplTest {
         order.setOrderItems(new ArrayList<>());
         order.setOrderPrice(BigDecimal.valueOf(42L));
         Optional<Order> ofResult = Optional.of(order);
-        doThrow(new OrderNotFoundException("An error occurred")).when(this.orderRepository).deleteById((Long) any());
-        when(this.orderRepository.findById((Long) any())).thenReturn(ofResult);
-        assertThrows(OrderNotFoundException.class, () -> this.orderServiceImpl.delete(123L));
-        verify(this.orderRepository, atLeast(1)).findById((Long) any());
-        verify(this.orderRepository).deleteById((Long) any());
-    }
-
-    @Test
-    void testDelete3() {
-        doNothing().when(this.orderRepository).deleteById((Long) any());
-        when(this.orderRepository.findById((Long) any())).thenReturn(Optional.empty());
-        assertThrows(OrderNotFoundException.class, () -> this.orderServiceImpl.delete(123L));
-        verify(this.orderRepository).findById((Long) any());
+        doThrow(new OrderNotFoundException("An error occurred")).when(orderRepository).deleteById((Long) any());
+        when(orderRepository.findById((Long) any())).thenReturn(ofResult);
+        assertThrows(OrderNotFoundException.class, () -> orderServiceImpl.delete(123L));
+        verify(orderRepository, atLeast(1)).findById((Long) any());
+        verify(orderRepository).deleteById((Long) any());
     }
 }
 
